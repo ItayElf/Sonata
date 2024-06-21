@@ -38,7 +38,14 @@ class _SplashPageState extends State<SplashPage> {
       });
       return;
     }
-    print(await getCurrentUser(accessToken));
+    final userResult = await getCurrentUser(accessToken);
+    if (userResult.isError) {
+      setState(() {
+        shouldLogin = true;
+      });
+    } else {
+      print(userResult.data);
+    }
   }
 
   Future onEnd(BuildContext context) async {
