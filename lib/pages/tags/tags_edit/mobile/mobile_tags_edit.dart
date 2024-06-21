@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:from_css_color/from_css_color.dart';
+import 'package:sonata/components/future_elevated_button.dart';
 
 import 'package:sonata/models/tag.dart';
 
@@ -61,7 +62,7 @@ class _MobileTagsEditState extends State<MobileTagsEdit> {
         ),
         actions: [
           if (widget.oldTag != null)
-            ElevatedButton(
+            FutureElevatedButton(
               child: const Text(
                 'Delete',
                 style: TextStyle(
@@ -75,7 +76,7 @@ class _MobileTagsEditState extends State<MobileTagsEdit> {
                 }
               },
             ),
-          ElevatedButton(
+          FutureElevatedButton(
             child: const Text('Save'),
             onPressed: () async {
               if (updatedTag.tag.isEmpty) return;

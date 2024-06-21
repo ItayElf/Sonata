@@ -6,7 +6,7 @@ class MobileNavigationBar extends StatelessWidget {
   final int selectedIndex;
 
   static const routes = {
-    "/label": Icons.library_music_outlined,
+    "/pieces": Icons.library_music_outlined,
     "/tags": Icons.label_outline,
     "/home": Icons.home_outlined,
     "/statistics": Icons.leaderboard_outlined,
@@ -26,6 +26,7 @@ class MobileNavigationBar extends StatelessWidget {
       ),
       child: NavigationBar(
         onDestinationSelected: (index) {
+          if (index == selectedIndex) return;
           Navigator.of(context).pushNamed(routes.keys.elementAt(index));
         },
         indicatorColor: Theme.of(context).colorScheme.onPrimaryContainer,
