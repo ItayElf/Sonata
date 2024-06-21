@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sonata/communication/auth.dart';
-import 'package:sonata/pages/auth/mobile/auth_page.dart';
+import 'package:sonata/pages/auth/auth_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

@@ -32,7 +32,7 @@ class DesktopAuthPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            SelectableText(
               "Sonata",
               style: GoogleFonts.greatVibes(fontSize: 143, letterSpacing: -1.5),
             ),
@@ -49,7 +49,7 @@ class DesktopAuthPage extends StatelessWidget {
               ),
             ),
             if (errorText != null) const SizedBox(height: 8),
-            if (errorText != null) getErrorText(context),
+            if (errorText != null) getErrorSelectableText(context),
             const SizedBox(height: 36),
             getUnderlineLink(context),
           ],
@@ -58,16 +58,16 @@ class DesktopAuthPage extends StatelessWidget {
     );
   }
 
-  Text getErrorText(BuildContext context) {
-    return Text(
+  SelectableText getErrorSelectableText(BuildContext context) {
+    return SelectableText(
       errorText!,
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.red),
     );
   }
 
-  RichText getUnderlineLink(BuildContext context) {
-    return RichText(
-      text: TextSpan(
+  SelectableText getUnderlineLink(BuildContext context) {
+    return SelectableText.rich(
+      TextSpan(
         text: underlineText,
         style: Theme.of(context).textTheme.titleLarge,
         children: [
@@ -92,7 +92,7 @@ class DesktopAuthPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
-      child: Text(
+      child: SelectableText(
         buttonText,
         style: const TextStyle(
           fontSize: 16,

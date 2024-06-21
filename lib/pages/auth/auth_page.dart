@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sonata/pages/auth/mobile/desktop_auth_page.dart';
+import 'package:sonata/pages/auth/desktop/desktop_auth_page.dart';
 import 'package:sonata/pages/auth/mobile/mobile_auth_page.dart';
 import 'package:sonata/pages/responsive_page.dart';
 
