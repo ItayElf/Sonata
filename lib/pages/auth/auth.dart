@@ -36,7 +36,11 @@ class AuthPage extends StatelessWidget {
               style: GoogleFonts.greatVibes(fontSize: 89, letterSpacing: -0.5),
             ),
             const SizedBox(height: 36),
-            ...inputFields,
+            AutofillGroup(
+              child: Column(
+                children: inputFields,
+              ),
+            ),
             const SizedBox(height: 36),
             getButton(context),
             const SizedBox(height: 36),

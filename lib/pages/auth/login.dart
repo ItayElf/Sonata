@@ -31,12 +31,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   List<Widget> getInputFields() => [
-        getTextField("Email", Icons.mail_outline, emailController),
+        getTextField(
+          "Email",
+          Icons.mail_outline,
+          emailController,
+          autofillHint: AutofillHints.email,
+        ),
         const SizedBox(height: 40),
         getTextField(
           "Password",
           Icons.lock_outline,
           passwordController,
+          autofillHint: AutofillHints.password,
           isSecret: true,
         ),
         const SizedBox(height: 20),
@@ -46,11 +52,13 @@ class _LoginPageState extends State<LoginPage> {
     String title,
     IconData icon,
     TextEditingController controller, {
+    String? autofillHint,
     bool isSecret = false,
   }) {
     return TextField(
       controller: controller,
       obscureText: isSecret,
+      autofillHints: autofillHint != null ? [autofillHint] : null,
       decoration: InputDecoration(
         hintText: title,
         prefixIcon: Icon(icon),
