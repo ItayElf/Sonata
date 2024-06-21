@@ -1,10 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-
-import 'package:sonata/models/piece.dart';
-import 'package:sonata/models/tag.dart';
 
 class User {
   const User({
@@ -12,8 +6,6 @@ class User {
     required this.name,
     required this.joinedAt,
     this.profilePictureId,
-    required this.tags,
-    required this.pieces,
   });
 
   final String id;
@@ -21,24 +13,17 @@ class User {
   final String joinedAt;
   final String? profilePictureId;
 
-  final List<Tag> tags;
-  final List<Piece> pieces;
-
   User copyWith({
     String? id,
     String? name,
     String? joinedAt,
     String? profilePictureId,
-    List<Tag>? tags,
-    List<Piece>? pieces,
   }) {
     return User(
       id: id ?? this.id,
       name: name ?? this.name,
       joinedAt: joinedAt ?? this.joinedAt,
       profilePictureId: profilePictureId ?? this.profilePictureId,
-      tags: tags ?? this.tags,
-      pieces: pieces ?? this.pieces,
     );
   }
 
@@ -48,8 +33,6 @@ class User {
       'name': name,
       'joined_at': joinedAt,
       'profile_picture_id': profilePictureId,
-      'tags': tags.map((x) => x.toMap()).toList(),
-      'pieces': pieces.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -61,16 +44,6 @@ class User {
       profilePictureId: map['profile_picture_id'] != null
           ? map['profile_picture_id'] as String
           : null,
-      tags: List<Tag>.from(
-        (map['tags']).map<Tag>(
-          (x) => Tag.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      pieces: List<Piece>.from(
-        (map['pieces']).map<Piece>(
-          (x) => Piece.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
     );
   }
 
@@ -81,7 +54,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, joinedAt: $joinedAt, profilePictureId: $profilePictureId, tags: $tags, pieces: $pieces)';
+    return 'User(id: $id, name: $name, joinedAt: $joinedAt, profilePictureId: $profilePictureId)';
   }
 
   @override
@@ -91,9 +64,7 @@ class User {
     return other.id == id &&
         other.name == name &&
         other.joinedAt == joinedAt &&
-        other.profilePictureId == profilePictureId &&
-        listEquals(other.tags, tags) &&
-        listEquals(other.pieces, pieces);
+        other.profilePictureId == profilePictureId;
   }
 
   @override
@@ -101,8 +72,6 @@ class User {
     return id.hashCode ^
         name.hashCode ^
         joinedAt.hashCode ^
-        profilePictureId.hashCode ^
-        tags.hashCode ^
-        pieces.hashCode;
+        profilePictureId.hashCode;
   }
 }

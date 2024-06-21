@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:sonata/communication/base.dart';
 import 'package:sonata/communication/result.dart';
-import 'package:sonata/models/user.dart';
+import 'package:sonata/models/full_user.dart';
 
 const _authUrl = "$apiUrl/auth";
 
@@ -43,7 +43,7 @@ Future<Result<String>> registerRequest(
   return Result(data: jsonDecode(response.body)["access_token"]);
 }
 
-Future<Result<User>> getCurrentUser(String accessToken) async {
+Future<Result<FullUser>> getCurrentUser(String accessToken) async {
   final response = await getRequest(
     "$_authUrl/current_user",
     token: accessToken,
@@ -53,5 +53,5 @@ Future<Result<User>> getCurrentUser(String accessToken) async {
     return Result(error: response.body);
   }
 
-  return Result(data: User.fromJson(response.body));
+  return Result(data: FullUser.fromJson(response.body));
 }
