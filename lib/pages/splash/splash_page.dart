@@ -50,6 +50,7 @@ class _SplashPageState extends State<SplashPage> {
   Future onEnd(BuildContext context) async {
     if (user != null) {
       Provider.of<GlobalState>(context, listen: false).initialize(user!);
+      Navigator.of(context).pushReplacementNamed("/tags");
     } else {
       Navigator.of(context).pushReplacementNamed("/login");
     }
