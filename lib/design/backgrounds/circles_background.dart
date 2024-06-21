@@ -8,8 +8,8 @@ class CirclesBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Material(
-        child: Stack(
+      child: Scaffold(
+        body: Stack(
           children: [
             ellipseAt(
               Theme.of(context).colorScheme.primaryContainer,
