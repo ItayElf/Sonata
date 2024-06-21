@@ -37,13 +37,17 @@ class DesktopAuthPage extends StatelessWidget {
               style: GoogleFonts.greatVibes(fontSize: 143, letterSpacing: -1.5),
             ),
             const SizedBox(height: 36),
-            AutofillGroup(
-              child: Column(
-                children: inputFields,
+            Form(
+              child: AutofillGroup(
+                child: Column(
+                  children: [
+                    ...inputFields,
+                    const SizedBox(height: 36),
+                    getButton(context),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 36),
-            getButton(context),
             if (errorText != null) const SizedBox(height: 8),
             if (errorText != null) getErrorText(context),
             const SizedBox(height: 36),

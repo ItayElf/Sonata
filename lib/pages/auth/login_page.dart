@@ -51,16 +51,19 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 20),
       ];
 
-  TextField getTextField(
+  TextFormField getTextField(
     String title,
     IconData icon,
     TextEditingController controller, {
     String? autofillHint,
     bool isSecret = false,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       obscureText: isSecret,
+      onFieldSubmitted: (_) async {
+        await onSubmit();
+      },
       autofillHints: autofillHint != null ? [autofillHint] : null,
       decoration: InputDecoration(
         hintText: title,

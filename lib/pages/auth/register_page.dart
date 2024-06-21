@@ -59,16 +59,19 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ];
 
-  TextField getTextField(
+  TextFormField getTextField(
     String title,
     IconData icon,
     TextEditingController controller, {
     String? autofillHint,
     bool isSecret = false,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       obscureText: isSecret,
+      onFieldSubmitted: (_) async {
+        await onSubmit();
+      },
       autofillHints: autofillHint != null ? [autofillHint] : null,
       decoration: InputDecoration(
         hintText: title,
