@@ -1,4 +1,4 @@
-import 'package:sonata/pages/auth/login.dart';
+import 'package:sonata/pages/auth/login_page.dart';
 
 const initialRoute = "/login";
 

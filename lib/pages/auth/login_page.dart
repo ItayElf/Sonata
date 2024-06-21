@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sonata/pages/auth/auth.dart';
+import 'package:sonata/communication/auth.dart';
+import 'package:sonata/pages/auth/auth_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -66,8 +67,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future onSubmit() {
-    return Future.delayed(const Duration(seconds: 2));
+  Future onSubmit() async {
+    final email = emailController.text;
+    final password = passwordController.text;
+    final result = await loginRequest(email, password);
+    print(result);
   }
 
   Future onTransition() {
