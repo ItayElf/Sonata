@@ -26,4 +26,18 @@ class GlobalState extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void editTag(Tag oldTag, Tag newTag) {
+    _tags = _tags.map((e) => e.id == oldTag.id ? newTag : e).toList();
+    notifyListeners();
+  }
+
+  void addTag(Tag newTag) {
+    _tags.add(newTag);
+    notifyListeners();
+  }
+
+  void deleteTag(Tag tag) {
+    _tags.removeWhere((element) => element.id == tag.id);
+  }
 }
