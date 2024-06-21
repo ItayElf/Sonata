@@ -9,8 +9,16 @@ class MobileTagsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<GlobalState>(builder: (context, state, child) {
-      return const Scaffold(
-        bottomNavigationBar: MobileNavigationBar(selectedIndex: 1),
+      return Scaffold(
+        bottomNavigationBar: const MobileNavigationBar(selectedIndex: 1),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: FloatingActionButton(
+            onPressed: () {},
+            tooltip: "New Tag",
+            child: const Icon(Icons.add),
+          ),
+        ),
       );
     });
   }
