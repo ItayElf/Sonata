@@ -13,14 +13,7 @@ class MobileTagsPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: const MobileNavigationBar(selectedIndex: 1),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: FloatingActionButton(
-            onPressed: () {},
-            tooltip: "New Tag",
-            child: const Icon(Icons.add),
-          ),
-        ),
+        floatingActionButton: getFloatingButton(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(24, 36, 24, 0),
           child: Column(
@@ -32,26 +25,41 @@ class MobileTagsPage extends StatelessWidget {
                     GoogleFonts.greatVibes(fontSize: 51, letterSpacing: -0.5),
               ),
               const SizedBox(height: 40),
-              Consumer<GlobalState>(
-                builder: (context, state, child) {
-                  final sortedTags = List.from(state.tags);
-                  sortedTags.sort((a, b) => a.tag.compareTo(b.tag));
-                  return Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 24,
-                      crossAxisSpacing: 24,
-                      childAspectRatio: 144 / 39,
-                      children: sortedTags
-                          .map((tag) => MobileTagCard(tag: tag, onEdit: () {}))
-                          .toList(),
-                    ),
-                  );
-                },
-              ),
+              getTagsGrid(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Consumer<GlobalState> getTagsGrid() {
+    return Consumer<GlobalState>(
+      builder: (context, state, child) {
+        final sortedTags = List.from(state.tags);
+        sortedTags.sort((a, b) => a.tag.compareTo(b.tag));
+        return Expanded(
+          child: GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 24,
+            crossAxisSpacing: 24,
+            childAspectRatio: 144 / 39,
+            children: sortedTags
+                .map((tag) => MobileTagCard(tag: tag, onEdit: () {}))
+                .toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  Padding getFloatingButton() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: FloatingActionButton(
+        onPressed: () {},
+        tooltip: "New Tag",
+        child: const Icon(Icons.add),
       ),
     );
   }
