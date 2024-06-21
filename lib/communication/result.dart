@@ -7,7 +7,7 @@ class Result<T> {
   final T? data;
   final String? error;
 
-  bool get isError => error == null;
+  bool get isError => error != null;
   bool get isOk => !isError;
 
   Result<T> copyWith({

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sonata/communication/auth.dart';
 import 'package:sonata/pages/auth/auth_page.dart';
 
@@ -85,9 +86,14 @@ class _RegisterPageState extends State<RegisterPage> {
     final username = usernameController.text;
     final password = passwordController.text;
     final result = await registerRequest(email, username, password);
-    setState(() {
-      error = result.error;
-    });
+    if (result.isError) {
+      setState(() {
+        error = result.error;
+      });
+    } else {
+      return SharedPreferences.getInstance()
+          .then((prefs) => prefs.setString("access_token", result.data!));
+    }
   }
 
   Future onTransition(BuildContext context) {
