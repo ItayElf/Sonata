@@ -84,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
       });
     } else {
       return SharedPreferences.getInstance()
-          .then((prefs) => prefs.setString("access_token", result.data!));
+          .then((prefs) => prefs.setString("access_token", result.data!))
+          .then((value) => Navigator.of(context).pushReplacementNamed("/"));
     }
   }
 
