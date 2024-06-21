@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sonata/components/future_elevated_button.dart';
 
-import 'package:sonata/design/backgrounds/circles_background.dart';
+import 'package:sonata/design/backgrounds/circles/mobile_circles_background.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({
@@ -26,7 +26,7 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CirclesBackground(
+    return MobileCirclesBackground(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(36, 0, 36, 0),
         child: Column(

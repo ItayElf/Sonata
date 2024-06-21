@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CirclesBackground extends StatelessWidget {
-  const CirclesBackground({super.key, this.child});
+class MobileCirclesBackground extends StatelessWidget {
+  const MobileCirclesBackground({super.key, this.child});
 
   final Widget? child;
 
