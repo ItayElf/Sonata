@@ -5,8 +5,8 @@ import 'package:sonata/components/future_elevated_button.dart';
 
 import 'package:sonata/models/tag.dart';
 
-class MobileTagsEdit extends StatefulWidget {
-  const MobileTagsEdit({
+class TagsEdit extends StatefulWidget {
+  const TagsEdit({
     super.key,
     this.oldTag,
     required this.onSave,
@@ -18,10 +18,10 @@ class MobileTagsEdit extends StatefulWidget {
   final Future<bool> Function(Tag oldTag) onDelete;
 
   @override
-  State<MobileTagsEdit> createState() => _MobileTagsEditState();
+  State<TagsEdit> createState() => _TagsEditState();
 }
 
-class _MobileTagsEditState extends State<MobileTagsEdit> {
+class _TagsEditState extends State<TagsEdit> {
   final nameController = TextEditingController();
   late Color pickedColor;
 
@@ -34,13 +34,13 @@ class _MobileTagsEditState extends State<MobileTagsEdit> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: AlertDialog(
-        title: Text(widget.oldTag == null ? "New Tag" : "Edit Tag"),
-        actionsAlignment: widget.oldTag == null
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.spaceBetween,
-        content: Column(
+    return AlertDialog(
+      title: Text(widget.oldTag == null ? "New Tag" : "Edit Tag"),
+      actionsAlignment: widget.oldTag == null
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.spaceBetween,
+      content: SingleChildScrollView(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
@@ -60,35 +60,34 @@ class _MobileTagsEditState extends State<MobileTagsEdit> {
             ),
           ],
         ),
-        actions: [
-          if (widget.oldTag != null)
-            FutureElevatedButton(
-              child: const Text(
-                'Delete',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-              onPressed: () async {
-                final shouldClose = await widget.onDelete(widget.oldTag!);
-                if (shouldClose && context.mounted) {
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
+      ),
+      actions: [
+        if (widget.oldTag != null)
           FutureElevatedButton(
-            child: const Text('Save'),
+            child: const Text(
+              'Delete',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
             onPressed: () async {
-              if (updatedTag.tag.isEmpty) return;
-              final shouldClose =
-                  await widget.onSave(widget.oldTag, updatedTag);
+              final shouldClose = await widget.onDelete(widget.oldTag!);
               if (shouldClose && context.mounted) {
                 Navigator.of(context).pop();
               }
             },
           ),
-        ],
-      ),
+        FutureElevatedButton(
+          child: const Text('Save'),
+          onPressed: () async {
+            if (updatedTag.tag.isEmpty) return;
+            final shouldClose = await widget.onSave(widget.oldTag, updatedTag);
+            if (shouldClose && context.mounted) {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+      ],
     );
   }
 

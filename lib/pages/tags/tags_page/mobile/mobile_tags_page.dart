@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sonata/components/mobile_navigation_bar.dart';
 import 'package:sonata/components/tags/mobile_tag_card.dart';
 import 'package:sonata/models/tag.dart';
-import 'package:sonata/pages/tags/tags_edit/mobile/mobile_tags_edit.dart';
+import 'package:sonata/pages/tags/tags_edit/tags_edit.dart';
 import 'package:sonata/state/global_state.dart';
 
 class MobileTagsPage extends StatelessWidget {
@@ -68,7 +68,7 @@ class MobileTagsPage extends StatelessWidget {
               tag: tag,
               onEdit: () => showDialog(
                 context: context,
-                builder: (ctx) => MobileTagsEdit(
+                builder: (ctx) => TagsEdit(
                   oldTag: tag,
                   onSave: (o, n) => onEdit(ctx, o, n),
                   onDelete: (t) => onDelete(ctx, t),
@@ -84,7 +84,7 @@ class MobileTagsPage extends StatelessWidget {
       child: FloatingActionButton(
         onPressed: () => showDialog(
           context: context,
-          builder: (ctx) => MobileTagsEdit(
+          builder: (ctx) => TagsEdit(
             onSave: (_, t) => onAdd(ctx, t),
             onDelete: (t) => onDelete(ctx, t),
           ),

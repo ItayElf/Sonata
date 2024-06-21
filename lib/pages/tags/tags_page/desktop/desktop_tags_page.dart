@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sonata/components/desktop_navigation_drawer.dart';
 import 'package:sonata/models/tag.dart';
+import 'package:sonata/pages/tags/tags_edit/tags_edit.dart';
 
 class DesktopTagsPage extends StatelessWidget {
   const DesktopTagsPage(
@@ -18,6 +19,7 @@ class DesktopTagsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: getFloatingButton(context),
         body: Row(
           children: [
             IntrinsicWidth(
@@ -29,6 +31,27 @@ class DesktopTagsPage extends StatelessWidget {
             Expanded(child: Placeholder()),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getFloatingButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: FloatingActionButton.extended(
+        label: const Text(
+          "New Label",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (ctx) => TagsEdit(
+            onSave: (_, t) => onAdd(ctx, t),
+            onDelete: (t) => onDelete(ctx, t),
+          ),
+        ),
+        tooltip: "New Tag",
+        icon: const Icon(Icons.add),
       ),
     );
   }
