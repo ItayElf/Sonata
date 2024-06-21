@@ -44,24 +44,28 @@ class AuthPage extends StatelessWidget {
             const SizedBox(height: 36),
             getButton(context),
             const SizedBox(height: 36),
-            RichText(
-              text: TextSpan(
-                text: underlineText,
-                style: Theme.of(context).textTheme.bodyLarge,
-                children: [
-                  TextSpan(
-                    text: "Click Here!",
-                    recognizer: TapGestureRecognizer()..onTap = onTransition,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          decoration: TextDecoration.underline,
-                        ),
-                  )
-                ],
-              ),
-            )
+            getUnderlineLink(context)
           ],
         ),
+      ),
+    );
+  }
+
+  RichText getUnderlineLink(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: underlineText,
+        style: Theme.of(context).textTheme.bodyLarge,
+        children: [
+          TextSpan(
+            text: "Click Here!",
+            recognizer: TapGestureRecognizer()..onTap = onTransition,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  decoration: TextDecoration.underline,
+                ),
+          )
+        ],
       ),
     );
   }
