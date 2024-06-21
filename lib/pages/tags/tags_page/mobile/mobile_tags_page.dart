@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sonata/communication/tags.dart';
 import 'package:sonata/components/mobile_navigation_bar.dart';
 import 'package:sonata/components/tags/mobile_tag_card.dart';
 import 'package:sonata/models/tag.dart';
@@ -60,8 +61,8 @@ class MobileTagsPage extends StatelessWidget {
                 context: context,
                 builder: (_) => MobileTagsEdit(
                   oldTag: tag,
-                  onSave: onEdit,
-                  onDelete: onDelete,
+                  onSave: (o, n) => onEdit(context, o, n),
+                  onDelete: (t) => onDelete(context, t),
                 ),
               ),
             ))
@@ -75,8 +76,8 @@ class MobileTagsPage extends StatelessWidget {
         onPressed: () => showDialog(
           context: context,
           builder: (_) => MobileTagsEdit(
-            onSave: onAdd,
-            onDelete: onDelete,
+            onSave: (_, t) => onAdd(context, t),
+            onDelete: (t) => onDelete(context, t),
           ),
         ),
         tooltip: "New Tag",
@@ -85,12 +86,38 @@ class MobileTagsPage extends StatelessWidget {
     );
   }
 
-  Future onEdit(Tag? oldTag, Tag newTag) async {
+  Future onEdit(BuildContext context, Tag? oldTag, Tag newTag) async {
     if (oldTag == null) return;
-    print(newTag);
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await editTagRequest(oldTag, newTag, state.token);
+    if (result.isError) {
+      showError(result.error!);
+      return;
+    }
+    state.editTag(oldTag, result.data!);
   }
 
-  Future onAdd(Tag? _, Tag newTag) async {}
+  Future onAdd(BuildContext context, Tag newTag) async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await addTagRequest(newTag, state.token);
+    if (result.isError) {
+      showError(result.error!);
+      return;
+    }
+    state.addTag(result.data!);
+  }
 
-  Future onDelete(Tag tag) async {}
+  Future onDelete(BuildContext context, Tag tag) async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await deleteTagRequest(tag, state.token);
+    if (result.isError) {
+      showError(result.error!);
+      return;
+    }
+    state.deleteTag(tag);
+  }
+
+  void showError(String error) {
+    print(error);
+  }
 }
