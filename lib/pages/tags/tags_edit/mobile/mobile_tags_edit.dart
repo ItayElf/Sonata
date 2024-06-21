@@ -13,8 +13,8 @@ class MobileTagsEdit extends StatefulWidget {
   });
 
   final Tag? oldTag;
-  final Future Function(Tag? oldTag, Tag newTag) onSave;
-  final Future Function(Tag oldTag) onDelete;
+  final Future<bool> Function(Tag? oldTag, Tag newTag) onSave;
+  final Future<bool> Function(Tag oldTag) onDelete;
 
   @override
   State<MobileTagsEdit> createState() => _MobileTagsEditState();
@@ -69,8 +69,8 @@ class _MobileTagsEditState extends State<MobileTagsEdit> {
                 ),
               ),
               onPressed: () async {
-                await widget.onDelete(widget.oldTag!);
-                if (context.mounted) {
+                final shouldClose = await widget.onDelete(widget.oldTag!);
+                if (shouldClose && context.mounted) {
                   Navigator.of(context).pop();
                 }
               },
@@ -79,8 +79,9 @@ class _MobileTagsEditState extends State<MobileTagsEdit> {
             child: const Text('Save'),
             onPressed: () async {
               if (updatedTag.tag.isEmpty) return;
-              await widget.onSave(widget.oldTag, updatedTag);
-              if (context.mounted) {
+              final shouldClose =
+                  await widget.onSave(widget.oldTag, updatedTag);
+              if (shouldClose && context.mounted) {
                 Navigator.of(context).pop();
               }
             },

@@ -59,10 +59,10 @@ class MobileTagsPage extends StatelessWidget {
               tag: tag,
               onEdit: () => showDialog(
                 context: context,
-                builder: (_) => MobileTagsEdit(
+                builder: (ctx) => MobileTagsEdit(
                   oldTag: tag,
-                  onSave: (o, n) => onEdit(context, o, n),
-                  onDelete: (t) => onDelete(context, t),
+                  onSave: (o, n) => onEdit(ctx, o, n),
+                  onDelete: (t) => onDelete(ctx, t),
                 ),
               ),
             ))
@@ -75,9 +75,9 @@ class MobileTagsPage extends StatelessWidget {
       child: FloatingActionButton(
         onPressed: () => showDialog(
           context: context,
-          builder: (_) => MobileTagsEdit(
-            onSave: (_, t) => onAdd(context, t),
-            onDelete: (t) => onDelete(context, t),
+          builder: (ctx) => MobileTagsEdit(
+            onSave: (_, t) => onAdd(ctx, t),
+            onDelete: (t) => onDelete(ctx, t),
           ),
         ),
         tooltip: "New Tag",
@@ -86,38 +86,64 @@ class MobileTagsPage extends StatelessWidget {
     );
   }
 
-  Future onEdit(BuildContext context, Tag? oldTag, Tag newTag) async {
-    if (oldTag == null) return;
+  Future<bool> onEdit(BuildContext context, Tag? oldTag, Tag newTag) async {
+    if (oldTag == null) return true;
     final state = Provider.of<GlobalState>(context, listen: false);
     final result = await editTagRequest(oldTag, newTag, state.token);
     if (result.isError) {
-      showError(result.error!);
-      return;
+      if (context.mounted) {
+        showError(context, result.error!);
+      }
+      return false;
     }
     state.editTag(oldTag, result.data!);
+    return true;
   }
 
-  Future onAdd(BuildContext context, Tag newTag) async {
+  Future<bool> onAdd(BuildContext context, Tag newTag) async {
     final state = Provider.of<GlobalState>(context, listen: false);
     final result = await addTagRequest(newTag, state.token);
     if (result.isError) {
-      showError(result.error!);
-      return;
+      if (context.mounted) {
+        showError(context, result.error!);
+      }
+      return false;
     }
     state.addTag(result.data!);
+    return true;
   }
 
-  Future onDelete(BuildContext context, Tag tag) async {
+  Future<bool> onDelete(BuildContext context, Tag tag) async {
     final state = Provider.of<GlobalState>(context, listen: false);
     final result = await deleteTagRequest(tag, state.token);
     if (result.isError) {
-      showError(result.error!);
-      return;
+      if (context.mounted) {
+        showError(context, result.error!);
+      }
+      return false;
     }
     state.deleteTag(tag);
+    return true;
   }
 
-  void showError(String error) {
-    print(error);
+  void showError(BuildContext context, String error) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: const Text("Error"),
+              content: Text(
+                error,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: Text(
+                    "Ok",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                )
+              ],
+            ));
   }
 }
