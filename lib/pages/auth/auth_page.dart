@@ -10,6 +10,7 @@ class AuthPage extends StatelessWidget {
     super.key,
     required this.buttonText,
     required this.underlineText,
+    this.errorText,
     required this.inputFields,
     required this.onSubmit,
     required this.onTransition,
@@ -17,6 +18,7 @@ class AuthPage extends StatelessWidget {
 
   final String buttonText;
   final String underlineText;
+  final String? errorText;
   final List<Widget> inputFields;
 
   final Future Function() onSubmit;
@@ -43,6 +45,15 @@ class AuthPage extends StatelessWidget {
             ),
             const SizedBox(height: 36),
             getButton(context),
+            if (errorText != null) const SizedBox(height: 8),
+            if (errorText != null)
+              Text(
+                errorText!,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Colors.red),
+              ),
             const SizedBox(height: 36),
             getUnderlineLink(context)
           ],

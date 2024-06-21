@@ -12,6 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  String? error;
 
   @override
   void dispose() {
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     return AuthPage(
       buttonText: "LOG IN",
       underlineText: "Don't have an account? ",
+      errorText: error,
       inputFields: getInputFields(),
       onSubmit: onSubmit,
       onTransition: onTransition,
@@ -71,7 +73,9 @@ class _LoginPageState extends State<LoginPage> {
     final email = emailController.text;
     final password = passwordController.text;
     final result = await loginRequest(email, password);
-    print(result);
+    setState(() {
+      error = result.error;
+    });
   }
 
   Future onTransition() {
