@@ -9,6 +9,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AuthPage(
@@ -20,7 +30,33 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  List<Widget> getInputFields() => [];
+  List<Widget> getInputFields() => [
+        getTextField("Email", Icons.mail_outline, emailController),
+        const SizedBox(height: 40),
+        getTextField(
+          "Password",
+          Icons.lock_outline,
+          passwordController,
+          isSecret: true,
+        ),
+        const SizedBox(height: 20),
+      ];
+
+  TextField getTextField(
+    String title,
+    IconData icon,
+    TextEditingController controller, {
+    bool isSecret = false,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: isSecret,
+      decoration: InputDecoration(
+        hintText: title,
+        prefixIcon: Icon(icon),
+      ),
+    );
+  }
 
   Future onSubmit() {
     return Future.delayed(const Duration(seconds: 2));
