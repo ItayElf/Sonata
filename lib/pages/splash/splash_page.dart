@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sonata/communication/auth.dart';
 import 'package:sonata/pages/responsive_page.dart';
 import 'package:sonata/pages/splash/desktop/desktop_splash_page.dart';
 import 'package:sonata/pages/splash/mobile/mobile_splash_page.dart';
@@ -37,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
       });
       return;
     }
-    return;
+    print(await getCurrentUser(accessToken));
   }
 
   Future onEnd(BuildContext context) async {

@@ -62,12 +62,12 @@ class User {
           ? map['profile_picture_id'] as String
           : null,
       tags: List<Tag>.from(
-        (map['tags'] as List<int>).map<Tag>(
+        (map['tags']).map<Tag>(
           (x) => Tag.fromMap(x as Map<String, dynamic>),
         ),
       ),
       pieces: List<Piece>.from(
-        (map['pieces'] as List<int>).map<Piece>(
+        (map['pieces']).map<Piece>(
           (x) => Piece.fromMap(x as Map<String, dynamic>),
         ),
       ),

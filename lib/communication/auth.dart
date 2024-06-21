@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:sonata/communication/base.dart';
 import 'package:sonata/communication/result.dart';
+import 'package:sonata/models/user.dart';
 
 const _authUrl = "$apiUrl/auth";
 
@@ -40,4 +41,17 @@ Future<Result<String>> registerRequest(
   }
 
   return Result(data: jsonDecode(response.body)["access_token"]);
+}
+
+Future<Result<User>> getCurrentUser(String accessToken) async {
+  final response = await getRequest(
+    "$_authUrl/current_user",
+    token: accessToken,
+  );
+
+  if (response.statusCode != 200) {
+    return Result(error: response.body);
+  }
+
+  return Result(data: User.fromJson(response.body));
 }
