@@ -5,8 +5,22 @@ import 'package:sonata/components/future_elevated_button.dart';
 
 import 'package:sonata/design/backgrounds/circles_background.dart';
 
-abstract class AuthPage extends StatelessWidget {
-  const AuthPage({super.key});
+class AuthPage extends StatelessWidget {
+  const AuthPage({
+    super.key,
+    required this.buttonText,
+    required this.underlineText,
+    required this.inputFields,
+    required this.onSubmit,
+    required this.onTransition,
+  });
+
+  final String buttonText;
+  final String underlineText;
+  final List<Widget> inputFields;
+
+  final Future Function() onSubmit;
+  final Future Function() onTransition;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +36,7 @@ abstract class AuthPage extends StatelessWidget {
               style: GoogleFonts.greatVibes(fontSize: 89, letterSpacing: -0.5),
             ),
             const SizedBox(height: 36),
-            ...getInputFields(),
+            ...inputFields,
             const SizedBox(height: 36),
             getButton(context),
             const SizedBox(height: 36),
@@ -66,14 +80,4 @@ abstract class AuthPage extends StatelessWidget {
       ),
     );
   }
-
-  List<Widget> getInputFields();
-
-  Future onSubmit();
-
-  Future onTransition();
-
-  String get buttonText;
-
-  String get underlineText;
 }
