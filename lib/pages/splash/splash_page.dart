@@ -16,7 +16,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  FullUser? user;
+  FullUser? _user;
+  String? _token;
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +39,20 @@ class _SplashPageState extends State<SplashPage> {
     if (accessToken == null) {
       return;
     }
+    _token = accessToken;
     final userResult = await getCurrentUser(accessToken);
     if (userResult.isError) {
       return;
     }
     setState(() {
-      user = userResult.data;
+      _user = userResult.data;
     });
   }
 
   Future onEnd(BuildContext context) async {
-    if (user != null) {
-      Provider.of<GlobalState>(context, listen: false).initialize(user!);
+    if (_user != null && _token != null) {
+      Provider.of<GlobalState>(context, listen: false)
+          .initialize(_user!, _token!);
       Navigator.of(context).pushReplacementNamed("/tags");
     } else {
       Navigator.of(context).pushReplacementNamed("/login");

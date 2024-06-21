@@ -8,14 +8,16 @@ import 'package:sonata/models/user.dart';
 
 class GlobalState extends ChangeNotifier {
   late User _user;
+  late String _token;
   late List<Piece> _pieces;
   late List<Tag> _tags;
 
   User get user => _user;
+  String get token => _token;
   UnmodifiableListView<Piece> get pieces => UnmodifiableListView(_pieces);
   UnmodifiableListView<Tag> get tags => UnmodifiableListView(_tags);
 
-  void initialize(FullUser fullUser) {
+  void initialize(FullUser fullUser, String token) {
     _pieces = List.from(fullUser.pieces);
     _tags = List.from(fullUser.tags);
     _user = User(
@@ -24,6 +26,7 @@ class GlobalState extends ChangeNotifier {
       joinedAt: fullUser.joinedAt,
       profilePictureId: fullUser.profilePictureId,
     );
+    _token = token;
     notifyListeners();
   }
 
@@ -39,5 +42,6 @@ class GlobalState extends ChangeNotifier {
 
   void deleteTag(Tag tag) {
     _tags.removeWhere((element) => element.id == tag.id);
+    notifyListeners();
   }
 }
