@@ -46,19 +46,19 @@ class AuthPage extends StatelessWidget {
             const SizedBox(height: 36),
             getButton(context),
             if (errorText != null) const SizedBox(height: 8),
-            if (errorText != null)
-              Text(
-                errorText!,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(color: Colors.red),
-              ),
+            if (errorText != null) getErrorText(context),
             const SizedBox(height: 36),
-            getUnderlineLink(context)
+            getUnderlineLink(context),
           ],
         ),
       ),
+    );
+  }
+
+  Text getErrorText(BuildContext context) {
+    return Text(
+      errorText!,
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.red),
     );
   }
 

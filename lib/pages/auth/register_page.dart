@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sonata/communication/auth.dart';
 import 'package:sonata/pages/auth/auth_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   String? error;
 
@@ -18,14 +19,15 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     super.dispose();
     emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AuthPage(
-      buttonText: "LOG IN",
-      underlineText: "Don't have an account? ",
+      buttonText: "CREATE ACCOUNT",
+      underlineText: "Already have an account? ",
       errorText: error,
       inputFields: getInputFields(),
       onSubmit: onSubmit,
@@ -42,13 +44,19 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 40),
         getTextField(
+          "Username",
+          Icons.person_outline,
+          usernameController,
+          autofillHint: AutofillHints.username,
+        ),
+        const SizedBox(height: 40),
+        getTextField(
           "Password",
           Icons.lock_outline,
           passwordController,
           autofillHint: AutofillHints.password,
           isSecret: true,
         ),
-        const SizedBox(height: 20),
       ];
 
   TextField getTextField(
@@ -71,14 +79,15 @@ class _LoginPageState extends State<LoginPage> {
 
   Future onSubmit() async {
     final email = emailController.text;
+    final username = usernameController.text;
     final password = passwordController.text;
-    final result = await loginRequest(email, password);
+    final result = await registerRequest(email, username, password);
     setState(() {
       error = result.error;
     });
   }
 
   Future onTransition(BuildContext context) {
-    return Navigator.of(context).pushReplacementNamed("/register");
+    return Navigator.of(context).pushReplacementNamed("/login");
   }
 }
