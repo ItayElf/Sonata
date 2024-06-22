@@ -6,15 +6,15 @@ import 'package:sonata/components/pieces/mobile_piece_tile.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/state/global_state.dart';
 
-class MobilePiecesPage extends StatefulWidget {
-  const MobilePiecesPage({super.key});
+class MobilePiecesPage extends StatelessWidget {
+  const MobilePiecesPage({
+    super.key,
+    required this.searchNotifier,
+    required this.getFilteredPieces,
+  });
 
-  @override
-  State<MobilePiecesPage> createState() => _MobilePiecesPageState();
-}
-
-class _MobilePiecesPageState extends State<MobilePiecesPage> {
-  final ValueNotifier<String> _searchNotifier = ValueNotifier<String>('');
+  final ValueNotifier<String> searchNotifier;
+  final List<Piece> Function(Iterable<Piece> pieces) getFilteredPieces;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,9 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
     return Consumer<GlobalState>(
       builder: (context, state, child) {
         return ValueListenableBuilder(
-            valueListenable: _searchNotifier,
+            valueListenable: searchNotifier,
             builder: (context, _, child) {
-              final pieces = getPieces(state.pieces);
+              final pieces = getFilteredPieces(state.pieces);
               return Expanded(
                 child: ListView.separated(
                   itemBuilder: (_, i) => MobilePieceTile(piece: pieces[i]),
@@ -62,17 +62,6 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
     );
   }
 
-  List<Piece> getPieces(Iterable<Piece> pieces) {
-    final newPieces = pieces
-        .map((e) =>
-            e.copyWith(tags: e.tags..sort((a, b) => a.tag.compareTo(b.tag))))
-        .where((piece) => piece.name.contains(_searchNotifier.value))
-        .toList();
-
-    newPieces.sort((a, b) => b.addedAt.compareTo(a.addedAt));
-    return newPieces;
-  }
-
   Widget getSearchRow() {
     return Row(
       children: [
@@ -82,7 +71,7 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
               icon: Icon(Icons.search),
               hintText: "Search",
             ),
-            onChanged: (value) => _searchNotifier.value = value,
+            onChanged: (value) => searchNotifier.value = value,
           ),
         ),
         const SizedBox(width: 16),

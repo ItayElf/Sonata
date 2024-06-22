@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:sonata/models/tag.dart';
 
 class Piece {
@@ -79,7 +80,9 @@ class Piece {
           map['instrument'] != null ? map['instrument'] as String : null,
       state: map['state'] as int,
       userId: map['user_id'] as String,
-      addedAt: DateTime.parse(map['added_at']).toLocal(),
+      addedAt: DateFormat("yyyy-MM-ddTHH:mm:ss")
+          .parse(map['added_at'], true)
+          .toLocal(),
       fileId: map['file_id'] != null ? map['file_id'] as String : null,
       fileType: map['file_type'] != null ? map['file_type'] as String : null,
       tags: List<Tag>.from(

@@ -49,9 +49,8 @@ class DesktopNavigationDrawer extends StatelessWidget {
                 ),
                 label: Text(
                   key.substring(1, 2).toUpperCase() + key.substring(2),
-                  style: TextStyle(
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                  style: GoogleFonts.greatVibes(
+                    fontSize: 42,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ),

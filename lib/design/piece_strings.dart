@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 const _instruments = {
   "Piano": "🎹",
   null: "🎵",
@@ -12,4 +14,10 @@ String getInstrumentEmoji(String? instrument) {
 
 String getStateString(int state) {
   return _states[state]!;
+}
+
+String getFormattedDate(DateTime date) {
+  final DateFormat formatter = DateFormat('dd MMM yyyy');
+  final String formatted = formatter.format(date);
+  return formatted;
 }
