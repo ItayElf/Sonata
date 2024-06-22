@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sonata/components/pieces/filter/piece_filter_state.dart';
+import 'package:sonata/components/pieces/filter/piece_instrument_filter.dart';
 import 'package:sonata/components/pieces/filter/piece_tags_filter.dart';
 import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/models/tag.dart';
@@ -19,6 +20,7 @@ class DesktopPieceFilterModal extends StatefulWidget {
 class _DesktopPieceFilterModalState extends State<DesktopPieceFilterModal> {
   late ValueNotifier<List<int>> stateNotifier;
   late ValueNotifier<List<Tag>> tagsNotifier;
+  late ValueNotifier<String?> instrumentNotifier;
 
   @override
   void initState() {
@@ -27,6 +29,8 @@ class _DesktopPieceFilterModalState extends State<DesktopPieceFilterModal> {
         ValueNotifier<List<int>>(List.from(widget.currentFilters.states));
     tagsNotifier =
         ValueNotifier<List<Tag>>(List.from(widget.currentFilters.tags));
+    instrumentNotifier =
+        ValueNotifier<String?>(widget.currentFilters.instrument);
   }
 
   @override
@@ -51,6 +55,13 @@ class _DesktopPieceFilterModalState extends State<DesktopPieceFilterModal> {
             ),
             const Divider(),
             PieceFilterState(stateNotifier),
+            const SizedBox(height: 16),
+            const Text(
+              "Instrument",
+              style: TextStyle(fontSize: 18),
+            ),
+            const Divider(),
+            PieceInstrumentFilter(notifier: instrumentNotifier),
           ],
         ),
       ),
@@ -68,7 +79,7 @@ class _DesktopPieceFilterModalState extends State<DesktopPieceFilterModal> {
   PieceFilter get currentFilter => PieceFilter(
         tags: tagsNotifier.value,
         states: stateNotifier.value,
-        instrument: null,
+        instrument: instrumentNotifier.value,
         attachmentType: null,
       );
 }
