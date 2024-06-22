@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:sonata/components/mobile_navigation_bar.dart';
+import 'package:sonata/models/piece.dart';
+import 'package:sonata/state/global_state.dart';
 
 class MobilePiecesPage extends StatefulWidget {
   const MobilePiecesPage({super.key});
@@ -37,11 +39,26 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
               getSearchRow(),
               const SizedBox(height: 16),
               getLayoutRow(),
+              Consumer<GlobalState>(
+                builder: (context, state, child) {
+                  final pieces = getPieces(state.pieces);
+                  return Placeholder();
+                },
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Piece> getPieces(Iterable<Piece> pieces) {
+    final newPieces = pieces
+        .where((piece) => piece.name.contains(searchController.text))
+        .toList();
+
+    newPieces.sort((a, b) => b.addedAt.compareTo(a.addedAt));
+    return newPieces;
   }
 
   Widget getSearchRow() {
