@@ -2,6 +2,11 @@ import 'package:intl/intl.dart';
 
 const _instruments = {
   "Piano": "🎹",
+  "Guitar": "🎸",
+  "Violin": "🎻",
+  "Saxophone": "🎷",
+  "Drums": "🥁",
+  "Ukulele": "🎸",
   null: "🎵",
 };
 
