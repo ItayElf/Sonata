@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sonata/components/pieces/desktop_piece_tag.dart';
+import 'package:sonata/components/pieces/desktop/desktop_piece_tag.dart';
 import 'package:sonata/design/piece_strings.dart';
 import 'package:sonata/models/piece.dart';
 

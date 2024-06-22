@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/mobile_navigation_bar.dart';
-import 'package:sonata/components/pieces/mobile_piece_tile.dart';
+import 'package:sonata/components/pieces/mobile/mobile_piece_tile.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/state/global_state.dart';
