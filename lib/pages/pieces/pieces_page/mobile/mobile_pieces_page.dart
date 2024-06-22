@@ -35,28 +35,30 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
               const SizedBox(height: 16),
               getLayoutRow(),
               const SizedBox(height: 16),
-              Consumer<GlobalState>(
-                builder: (context, state, child) {
-                  return ValueListenableBuilder(
-                      valueListenable: _searchNotifier,
-                      builder: (context, _, child) {
-                        final pieces = getPieces(state.pieces);
-                        return Expanded(
-                          child: ListView.separated(
-                            itemBuilder: (_, i) =>
-                                MobilePieceTile(piece: pieces[i]),
-                            separatorBuilder: (_, __) =>
-                                const SizedBox(height: 20),
-                            itemCount: pieces.length,
-                          ),
-                        );
-                      });
-                },
-              )
+              getListTable()
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Consumer<GlobalState> getListTable() {
+    return Consumer<GlobalState>(
+      builder: (context, state, child) {
+        return ValueListenableBuilder(
+            valueListenable: _searchNotifier,
+            builder: (context, _, child) {
+              final pieces = getPieces(state.pieces);
+              return Expanded(
+                child: ListView.separated(
+                  itemBuilder: (_, i) => MobilePieceTile(piece: pieces[i]),
+                  separatorBuilder: (_, __) => const SizedBox(height: 20),
+                  itemCount: pieces.length,
+                ),
+              );
+            });
+      },
     );
   }
 
