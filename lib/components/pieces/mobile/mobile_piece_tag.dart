@@ -14,9 +14,11 @@ class MobilePieceTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: fromCssColor(tag.color),
       ),
+      padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
       child: Text(
         "#${tag.tag}",
-        style: const TextStyle(fontStyle: FontStyle.italic),
+        style:
+            const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
       ),
     );
   }

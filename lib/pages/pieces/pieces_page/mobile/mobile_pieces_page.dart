@@ -52,14 +52,18 @@ class MobilePiecesPage extends StatelessWidget {
         return ValueListenableBuilder(
             valueListenable: searchNotifier,
             builder: (context, _, child) {
-              final pieces = getFilteredPieces(state.pieces);
               return ValueListenableBuilder(
                 valueListenable: filterNotifier,
-                builder: (context, _, child) => ListView.separated(
-                  itemBuilder: (_, i) => MobilePieceTile(piece: pieces[i]),
-                  separatorBuilder: (_, __) => const SizedBox(height: 20),
-                  itemCount: pieces.length,
-                ),
+                builder: (context, _, child) {
+                  final pieces = getFilteredPieces(state.pieces);
+                  return Expanded(
+                    child: ListView.separated(
+                      itemBuilder: (_, i) => MobilePieceTile(piece: pieces[i]),
+                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      itemCount: pieces.length,
+                    ),
+                  );
+                },
               );
             });
       },

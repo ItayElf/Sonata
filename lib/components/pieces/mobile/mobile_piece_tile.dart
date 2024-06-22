@@ -10,20 +10,24 @@ class MobilePieceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        piece.name,
-        style: const TextStyle(fontSize: 18),
-      ),
-      leading: Text(
-        getInstrumentEmoji(piece.instrument),
-        style: const TextStyle(fontSize: 24),
-      ),
-      subtitle: ClipRect(
-        child: Row(
-          children: [
-            if (piece.tags.isNotEmpty) getTags(),
-          ],
+    return Card(
+      child: ListTile(
+        dense: true,
+        title: Text(
+          piece.name,
+          style: const TextStyle(fontSize: 18),
+        ),
+        leading: Text(
+          getInstrumentEmoji(piece.instrument),
+          style: const TextStyle(fontSize: 24),
+        ),
+        subtitle: ClipRect(
+          child: Row(
+            children: [
+              if (piece.tags.isNotEmpty) getTags(),
+              if (!piece.tags.isNotEmpty) Text(getStateString(piece.state)),
+            ],
+          ),
         ),
       ),
     );
