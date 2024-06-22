@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sonata/models/piece.dart';
+import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/pages/pieces/pieces_page/desktop/desktop_pieces_page.dart';
 import 'package:sonata/pages/pieces/pieces_page/mobile/mobile_pieces_page.dart';
 import 'package:sonata/pages/responsive_page.dart';
@@ -12,7 +13,8 @@ class PiecesPage extends StatefulWidget {
 }
 
 class _PiecesPageState extends State<PiecesPage> {
-  final ValueNotifier<String> searchNotifier = ValueNotifier("");
+  final searchNotifier = ValueNotifier("");
+  final filterNotifier = ValueNotifier(PieceFilter.empty());
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class _PiecesPageState extends State<PiecesPage> {
         .map((e) =>
             e.copyWith(tags: e.tags..sort((a, b) => a.tag.compareTo(b.tag))))
         .where((piece) => piece.name.contains(searchNotifier.value))
+        .where(filterNotifier.value.filter)
         .toList();
 
     newPieces.sort((a, b) => b.addedAt.compareTo(a.addedAt));
