@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/mobile_navigation_bar.dart';
+import 'package:sonata/components/pieces/mobile_piece_tile.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/state/global_state.dart';
 
@@ -39,10 +40,17 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
               getSearchRow(),
               const SizedBox(height: 16),
               getLayoutRow(),
+              const SizedBox(height: 16),
               Consumer<GlobalState>(
                 builder: (context, state, child) {
                   final pieces = getPieces(state.pieces);
-                  return Placeholder();
+                  return Expanded(
+                    child: ListView.separated(
+                      itemBuilder: (_, i) => MobilePieceTile(piece: pieces[i]),
+                      separatorBuilder: (_, __) => const SizedBox(height: 20),
+                      itemCount: pieces.length,
+                    ),
+                  );
                 },
               )
             ],
@@ -54,6 +62,8 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
 
   List<Piece> getPieces(Iterable<Piece> pieces) {
     final newPieces = pieces
+        .map((e) =>
+            e.copyWith(tags: e.tags..sort((a, b) => a.tag.compareTo(b.tag))))
         .where((piece) => piece.name.contains(searchController.text))
         .toList();
 
