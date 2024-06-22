@@ -14,9 +14,12 @@ class DesktopPieceTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: fromCssColor(tag.color),
       ),
-      child: Text(
-        "#${tag.tag}",
-        style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 16),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(2, 0, 4, 0),
+        child: Text(
+          "#${tag.tag}",
+          style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 16),
+        ),
       ),
     );
   }
