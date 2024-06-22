@@ -6,8 +6,11 @@ import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/models/tag.dart';
 
 class DesktopPieceFilterModal extends StatefulWidget {
-  const DesktopPieceFilterModal(
-      {super.key, required this.currentFilters, required this.tags});
+  const DesktopPieceFilterModal({
+    super.key,
+    required this.currentFilters,
+    required this.tags,
+  });
 
   final PieceFilter currentFilters;
   final List<Tag> tags;

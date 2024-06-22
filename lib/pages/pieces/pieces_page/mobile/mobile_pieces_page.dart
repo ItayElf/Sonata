@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/mobile_navigation_bar.dart';
+import 'package:sonata/components/pieces/mobile/mobile_piece_filter_modal.dart';
 import 'package:sonata/components/pieces/mobile/mobile_piece_tile.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
@@ -81,11 +83,31 @@ class MobilePiecesPage extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        InkWell(
-          onTap: () {},
-          child: const Icon(Icons.filter_alt_outlined),
+        ValueListenableBuilder(
+          valueListenable: filterNotifier,
+          builder: (context, _, __) => InkWell(
+            onTap: () => onFilterClick(context),
+            child: Badge(
+              isLabelVisible: filterNotifier.value.length != 0,
+              label: Text("${filterNotifier.value.length}"),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: const Icon(Icons.filter_alt_outlined),
+            ),
+          ),
         )
       ],
     );
+  }
+
+  Future onFilterClick(BuildContext context) async {
+    final result = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => MobilePieceFilterModal(
+        currentFilters: filterNotifier.value,
+        tags: Provider.of<GlobalState>(context, listen: false).tags,
+      ),
+    ));
+    if (result != null) {
+      filterNotifier.value = result;
+    }
   }
 }
