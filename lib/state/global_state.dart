@@ -50,6 +50,9 @@ class GlobalState extends ChangeNotifier {
 
   void deleteTag(Tag tag) {
     _tags.removeWhere((element) => element.id == tag.id);
+    for (var piece in _pieces) {
+      piece.tags.removeWhere((element) => element.id == tag.id);
+    }
     notifyListeners();
   }
 }
