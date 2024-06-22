@@ -60,7 +60,11 @@ class _MobilePieceFilterModalState extends State<MobilePieceFilterModal> {
                 style: TextStyle(fontSize: 18),
               ),
               const Divider(),
-              PieceTagsFilter(notifier: tagsNotifier, tags: widget.tags),
+              PieceTagsFilter(
+                notifier: tagsNotifier,
+                tags: widget.tags,
+                offsetResults: -60,
+              ),
               const SizedBox(height: 56),
               const Text(
                 "States",

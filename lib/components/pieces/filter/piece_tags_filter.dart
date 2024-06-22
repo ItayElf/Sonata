@@ -8,10 +8,12 @@ class PieceTagsFilter extends StatefulWidget {
     super.key,
     required this.notifier,
     required this.tags,
+    required this.offsetResults,
   });
 
   final ValueNotifier<List<Tag>> notifier;
   final List<Tag> tags;
+  final double offsetResults;
 
   @override
   State<PieceTagsFilter> createState() => _PieceTagsFilterState();
@@ -42,24 +44,28 @@ class _PieceTagsFilterState extends State<PieceTagsFilter> {
         return _tagOptions.where((element) =>
             element.tag.toLowerCase().contains(value.text.toLowerCase()));
       },
-      optionsViewBuilder: (context, onSelected, options) => ListView.builder(
-        itemCount: options.length,
-        itemBuilder: (context, index) => Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            width: MediaQuery.of(context).size.width / 3,
-            color: fromCssColor(options.elementAt(index).data.color).alpha == 0
-                ? Colors.white
-                : fromCssColor(options.elementAt(index).data.color),
-            child: TextButton(
-              onPressed: () => onSelected(options.elementAt(index)),
-              child: Text(
-                textAlign: TextAlign.left,
-                "#${options.elementAt(index).tag}",
-                style: const TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 16,
-                  color: Colors.black,
+      optionsViewBuilder: (context, onSelected, options) => Transform.translate(
+        offset: Offset(0, widget.offsetResults),
+        child: ListView.builder(
+          itemCount: options.length,
+          itemBuilder: (context, index) => Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              width: MediaQuery.of(context).size.width / 3,
+              color:
+                  fromCssColor(options.elementAt(index).data.color).alpha == 0
+                      ? Colors.white
+                      : fromCssColor(options.elementAt(index).data.color),
+              child: TextButton(
+                onPressed: () => onSelected(options.elementAt(index)),
+                child: Text(
+                  textAlign: TextAlign.left,
+                  "#${options.elementAt(index).tag}",
+                  style: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),

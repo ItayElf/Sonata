@@ -50,7 +50,11 @@ class _DesktopPieceFilterModalState extends State<DesktopPieceFilterModal> {
               style: TextStyle(fontSize: 18),
             ),
             const Divider(),
-            PieceTagsFilter(notifier: tagsNotifier, tags: widget.tags),
+            PieceTagsFilter(
+              notifier: tagsNotifier,
+              tags: widget.tags,
+              offsetResults: -24,
+            ),
             const SizedBox(height: 16),
             const Text(
               "States",
