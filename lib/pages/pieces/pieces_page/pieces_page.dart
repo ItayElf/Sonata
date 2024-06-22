@@ -22,10 +22,12 @@ class _PiecesPageState extends State<PiecesPage> {
       mobile: MobilePiecesPage(
         searchNotifier: searchNotifier,
         getFilteredPieces: getFilteredPieces,
+        filterNotifier: filterNotifier,
       ),
       desktop: DesktopPiecesPage(
         searchNotifier: searchNotifier,
         getFilteredPieces: getFilteredPieces,
+        filterNotifier: filterNotifier,
       ),
     );
   }

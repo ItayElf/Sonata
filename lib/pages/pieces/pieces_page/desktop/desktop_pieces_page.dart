@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sonata/components/desktop_navigation_drawer.dart';
 import 'package:sonata/components/pieces/desktop_piece_row.dart';
 import 'package:sonata/models/piece.dart';
+import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/state/global_state.dart';
 import 'package:sonata/state/state_guard.dart';
 
@@ -12,9 +13,11 @@ class DesktopPiecesPage extends StatelessWidget {
     super.key,
     required this.searchNotifier,
     required this.getFilteredPieces,
+    required this.filterNotifier,
   });
 
   final ValueNotifier<String> searchNotifier;
+  final ValueNotifier<PieceFilter> filterNotifier;
   final List<Piece> Function(Iterable<Piece> pieces) getFilteredPieces;
 
   @override
@@ -60,7 +63,10 @@ class DesktopPiecesPage extends StatelessWidget {
             valueListenable: searchNotifier,
             builder: (context, _, child) {
               final pieces = getFilteredPieces(state.pieces);
-              return getPiecesTable(pieces);
+              return ValueListenableBuilder(
+                valueListenable: filterNotifier,
+                builder: (context, _, child) => getPiecesTable(pieces),
+              );
             });
       },
     );

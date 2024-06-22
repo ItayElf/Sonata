@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sonata/components/mobile_navigation_bar.dart';
 import 'package:sonata/components/pieces/mobile_piece_tile.dart';
 import 'package:sonata/models/piece.dart';
+import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/state/global_state.dart';
 
 class MobilePiecesPage extends StatelessWidget {
@@ -11,9 +12,11 @@ class MobilePiecesPage extends StatelessWidget {
     super.key,
     required this.searchNotifier,
     required this.getFilteredPieces,
+    required this.filterNotifier,
   });
 
   final ValueNotifier<String> searchNotifier;
+  final ValueNotifier<PieceFilter> filterNotifier;
   final List<Piece> Function(Iterable<Piece> pieces) getFilteredPieces;
 
   @override
@@ -50,8 +53,9 @@ class MobilePiecesPage extends StatelessWidget {
             valueListenable: searchNotifier,
             builder: (context, _, child) {
               final pieces = getFilteredPieces(state.pieces);
-              return Expanded(
-                child: ListView.separated(
+              return ValueListenableBuilder(
+                valueListenable: filterNotifier,
+                builder: (context, _, child) => ListView.separated(
                   itemBuilder: (_, i) => MobilePieceTile(piece: pieces[i]),
                   separatorBuilder: (_, __) => const SizedBox(height: 20),
                   itemCount: pieces.length,
