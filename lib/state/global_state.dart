@@ -32,6 +32,14 @@ class GlobalState extends ChangeNotifier {
 
   void editTag(Tag oldTag, Tag newTag) {
     _tags = _tags.map((e) => e.id == oldTag.id ? newTag : e).toList();
+    _pieces = _pieces
+        .map(
+          (piece) => piece.copyWith(
+              tags: piece.tags
+                  .map((e) => e.id == oldTag.id ? newTag : e)
+                  .toList()),
+        )
+        .toList();
     notifyListeners();
   }
 
