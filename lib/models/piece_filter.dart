@@ -20,6 +20,12 @@ class PieceFilter {
         instrument = null,
         attachmentType = null;
 
+  int get length =>
+      tags.length +
+      states.length +
+      (instrument != null ? 1 : 0) +
+      (attachmentType != null ? 1 : 0);
+
   bool filter(Piece piece) {
     if (tags.isNotEmpty) {
       for (Tag tag in tags) {

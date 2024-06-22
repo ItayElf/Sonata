@@ -108,11 +108,19 @@ class DesktopPiecesPage extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        InkWell(
-          onTap: () => onFilterClick(context),
-          child: const Icon(
-            Icons.filter_alt_outlined,
-            size: 36,
+        ValueListenableBuilder(
+          valueListenable: filterNotifier,
+          builder: (context, _, __) => InkWell(
+            onTap: () => onFilterClick(context),
+            child: Badge(
+              isLabelVisible: filterNotifier.value.length != 0,
+              label: Text("${filterNotifier.value.length}"),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: const Icon(
+                Icons.filter_alt_outlined,
+                size: 36,
+              ),
+            ),
           ),
         ),
         Flexible(flex: 1, child: Container()),
