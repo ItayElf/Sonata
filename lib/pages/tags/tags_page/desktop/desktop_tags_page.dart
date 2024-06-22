@@ -38,7 +38,6 @@ class DesktopTagsPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(72, 48, 72, 0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Tags",
