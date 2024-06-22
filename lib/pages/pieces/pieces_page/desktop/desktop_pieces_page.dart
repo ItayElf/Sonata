@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/desktop_navigation_drawer.dart';
-import 'package:sonata/components/pieces/desktop/filter/desktop_piece_filter_modal.dart';
+import 'package:sonata/components/pieces/desktop/desktop_piece_filter_modal.dart';
 import 'package:sonata/components/pieces/desktop/desktop_piece_row.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
@@ -133,6 +133,7 @@ class DesktopPiecesPage extends StatelessWidget {
       context: context,
       builder: (context) => DesktopPieceFilterModal(
         currentFilters: filterNotifier.value,
+        tags: Provider.of<GlobalState>(context, listen: false).tags,
       ),
     );
     if (result != null) {

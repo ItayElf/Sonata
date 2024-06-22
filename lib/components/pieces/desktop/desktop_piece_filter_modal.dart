@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:sonata/components/pieces/desktop/filter/piece_filter_state.dart';
+import 'package:sonata/components/pieces/filter/piece_filter_state.dart';
+import 'package:sonata/components/pieces/filter/piece_tags_filter.dart';
 import 'package:sonata/models/piece_filter.dart';
+import 'package:sonata/models/tag.dart';
 
 class DesktopPieceFilterModal extends StatefulWidget {
-  const DesktopPieceFilterModal({super.key, required this.currentFilters});
+  const DesktopPieceFilterModal(
+      {super.key, required this.currentFilters, required this.tags});
 
   final PieceFilter currentFilters;
+  final List<Tag> tags;
 
   @override
   State<DesktopPieceFilterModal> createState() =>
@@ -14,28 +18,41 @@ class DesktopPieceFilterModal extends StatefulWidget {
 
 class _DesktopPieceFilterModalState extends State<DesktopPieceFilterModal> {
   late ValueNotifier<List<int>> stateNotifier;
+  late ValueNotifier<List<Tag>> tagsNotifier;
 
   @override
   void initState() {
     super.initState();
     stateNotifier =
         ValueNotifier<List<int>>(List.from(widget.currentFilters.states));
+    tagsNotifier =
+        ValueNotifier<List<Tag>>(List.from(widget.currentFilters.tags));
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Center(child: Text("Filter Pieces")),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            "States",
-            style: TextStyle(fontSize: 18),
-          ),
-          const Divider(),
-          PieceFilterState(stateNotifier),
-        ],
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width / 3,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              "Tags",
+              style: TextStyle(fontSize: 18),
+            ),
+            const Divider(),
+            PieceTagsFilter(notifier: tagsNotifier, tags: widget.tags),
+            const SizedBox(height: 16),
+            const Text(
+              "States",
+              style: TextStyle(fontSize: 18),
+            ),
+            const Divider(),
+            PieceFilterState(stateNotifier),
+          ],
+        ),
       ),
       actions: [
         ElevatedButton(
@@ -49,7 +66,7 @@ class _DesktopPieceFilterModalState extends State<DesktopPieceFilterModal> {
   }
 
   PieceFilter get currentFilter => PieceFilter(
-        tags: [],
+        tags: tagsNotifier.value,
         states: stateNotifier.value,
         instrument: null,
         attachmentType: null,
