@@ -36,7 +36,7 @@ class DesktopNavigationDrawer extends StatelessWidget {
       ),
       destinations: routes.keys
           .map((key) => NavigationRailDestination(
-                padding: EdgeInsets.fromLTRB(8, 24, 8, 24),
+                padding: const EdgeInsets.fromLTRB(8, 24, 8, 24),
                 icon: Icon(
                   routes[key],
                   size: 36,

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:sonata/models/tag.dart';
+
 class Piece {
   const Piece({
     required this.id,
@@ -11,6 +13,7 @@ class Piece {
     required this.addedAt,
     this.fileId,
     required this.fileType,
+    required this.tags,
   });
 
   final String id;
@@ -22,6 +25,7 @@ class Piece {
   final String addedAt;
   final String? fileId;
   final String fileType;
+  final List<Tag> tags;
 
   Piece copyWith({
     String? id,
@@ -33,6 +37,7 @@ class Piece {
     String? addedAt,
     String? fileId,
     String? fileType,
+    List<Tag>? tags,
   }) {
     return Piece(
       id: id ?? this.id,
@@ -44,6 +49,7 @@ class Piece {
       addedAt: addedAt ?? this.addedAt,
       fileId: fileId ?? this.fileId,
       fileType: fileType ?? this.fileType,
+      tags: tags ?? this.tags,
     );
   }
 
@@ -58,6 +64,7 @@ class Piece {
       'added_at': addedAt,
       'file_id': fileId,
       'file_type': fileType,
+      'tags': tags.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -74,6 +81,11 @@ class Piece {
       addedAt: map['added_at'] as String,
       fileId: map['file_id'] != null ? map['file_id'] as String : null,
       fileType: map['file_type'] as String,
+      tags: List<Tag>.from(
+        (map['tags']).map<Tag>(
+          (x) => Tag.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
@@ -84,7 +96,7 @@ class Piece {
 
   @override
   String toString() {
-    return 'Piece(id: $id, name: $name, description: $description, instrument: $instrument, state: $state, userId: $userId, addedAt: $addedAt, fileId: $fileId, fileType: $fileType)';
+    return 'Piece(id: $id, name: $name, description: $description, instrument: $instrument, state: $state, userId: $userId, addedAt: $addedAt, fileId: $fileId, fileType: $fileType, tags: $tags)';
   }
 
   @override
@@ -99,7 +111,8 @@ class Piece {
         other.userId == userId &&
         other.addedAt == addedAt &&
         other.fileId == fileId &&
-        other.fileType == fileType;
+        other.fileType == fileType &&
+        other.tags == tags;
   }
 
   @override
@@ -112,6 +125,7 @@ class Piece {
         userId.hashCode ^
         addedAt.hashCode ^
         fileId.hashCode ^
-        fileType.hashCode;
+        fileType.hashCode ^
+        tags.hashCode;
   }
 }
