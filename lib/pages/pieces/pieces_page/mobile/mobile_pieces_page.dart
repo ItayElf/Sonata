@@ -14,6 +14,12 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
   final searchController = TextEditingController();
 
   @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

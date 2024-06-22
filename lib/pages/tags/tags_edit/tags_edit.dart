@@ -33,6 +33,12 @@ class _TagsEditState extends State<TagsEdit> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(widget.oldTag == null ? "New Tag" : "Edit Tag"),
