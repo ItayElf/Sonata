@@ -22,7 +22,7 @@ class Piece {
   final String? instrument;
   final int state;
   final String userId;
-  final String addedAt;
+  final DateTime addedAt;
   final String? fileId;
   final String? fileType;
   final List<Tag> tags;
@@ -34,7 +34,7 @@ class Piece {
     String? instrument,
     int? state,
     String? userId,
-    String? addedAt,
+    DateTime? addedAt,
     String? fileId,
     String? fileType,
     List<Tag>? tags,
@@ -61,7 +61,8 @@ class Piece {
       'instrument': instrument,
       'state': state,
       'user_id': userId,
-      'added_at': addedAt,
+      'added_at':
+          addedAt.toIso8601String().split('.').first.replaceFirst('T', ' '),
       'file_id': fileId,
       'file_type': fileType,
       'tags': tags.map((x) => x.toMap()).toList(),
@@ -78,7 +79,7 @@ class Piece {
           map['instrument'] != null ? map['instrument'] as String : null,
       state: map['state'] as int,
       userId: map['user_id'] as String,
-      addedAt: map['added_at'] as String,
+      addedAt: DateTime.parse(map['added_at']).toLocal(),
       fileId: map['file_id'] != null ? map['file_id'] as String : null,
       fileType: map['file_type'] != null ? map['file_type'] as String : null,
       tags: List<Tag>.from(
