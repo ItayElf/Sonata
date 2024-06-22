@@ -28,19 +28,21 @@ class _FutureElevatedButtonState extends State<FutureElevatedButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isDisabled ? null : onAsyncPressed,
+      onPressed: isDisabled ? null : () => onAsyncPressed(context),
       style: widget.style,
       child: widget.child,
     );
   }
 
-  void onAsyncPressed() async {
+  void onAsyncPressed(BuildContext context) async {
     setState(() {
       isDisabled = true;
     });
     await widget.onPressed!();
-    setState(() {
-      isDisabled = false;
-    });
+    if (context.mounted) {
+      setState(() {
+        isDisabled = false;
+      });
+    }
   }
 }

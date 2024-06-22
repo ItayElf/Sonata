@@ -12,7 +12,7 @@ class Piece {
     required this.userId,
     required this.addedAt,
     this.fileId,
-    required this.fileType,
+    this.fileType,
     required this.tags,
   });
 
@@ -24,7 +24,7 @@ class Piece {
   final String userId;
   final String addedAt;
   final String? fileId;
-  final String fileType;
+  final String? fileType;
   final List<Tag> tags;
 
   Piece copyWith({
@@ -80,7 +80,7 @@ class Piece {
       userId: map['user_id'] as String,
       addedAt: map['added_at'] as String,
       fileId: map['file_id'] != null ? map['file_id'] as String : null,
-      fileType: map['file_type'] as String,
+      fileType: map['file_type'] != null ? map['file_type'] as String : null,
       tags: List<Tag>.from(
         (map['tags']).map<Tag>(
           (x) => Tag.fromMap(x as Map<String, dynamic>),
