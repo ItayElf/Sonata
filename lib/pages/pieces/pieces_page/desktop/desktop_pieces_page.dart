@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/desktop_navigation_drawer.dart';
+import 'package:sonata/components/pieces/desktop_piece_filter_modal.dart';
 import 'package:sonata/components/pieces/desktop_piece_row.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
@@ -43,7 +44,7 @@ class DesktopPiecesPage extends StatelessWidget {
                           fontSize: 89, letterSpacing: -0.5),
                     ),
                     const SizedBox(height: 8),
-                    getSearchRow(),
+                    getSearchRow(context),
                     const SizedBox(height: 16),
                     getTableWrapper(),
                   ]),
@@ -62,10 +63,12 @@ class DesktopPiecesPage extends StatelessWidget {
         return ValueListenableBuilder(
             valueListenable: searchNotifier,
             builder: (context, _, child) {
-              final pieces = getFilteredPieces(state.pieces);
               return ValueListenableBuilder(
                 valueListenable: filterNotifier,
-                builder: (context, _, child) => getPiecesTable(pieces),
+                builder: (context, _, child) {
+                  final pieces = getFilteredPieces(state.pieces);
+                  return getPiecesTable(pieces);
+                },
               );
             });
       },
@@ -90,7 +93,7 @@ class DesktopPiecesPage extends StatelessWidget {
     );
   }
 
-  Widget getSearchRow() {
+  Widget getSearchRow(BuildContext context) {
     return Row(
       children: [
         Flexible(flex: 1, child: Container()),
@@ -106,11 +109,26 @@ class DesktopPiecesPage extends StatelessWidget {
         ),
         const SizedBox(width: 16),
         InkWell(
-          onTap: () {},
-          child: const Icon(Icons.filter_alt_outlined),
+          onTap: () => onFilterClick(context),
+          child: const Icon(
+            Icons.filter_alt_outlined,
+            size: 36,
+          ),
         ),
         Flexible(flex: 1, child: Container()),
       ],
     );
+  }
+
+  Future onFilterClick(BuildContext context) async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) => DesktopPieceFilterModal(
+        currentFilters: filterNotifier.value,
+      ),
+    );
+    if (result != null) {
+      filterNotifier.value = result;
+    }
   }
 }

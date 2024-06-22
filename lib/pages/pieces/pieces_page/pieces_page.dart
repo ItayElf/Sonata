@@ -36,7 +36,9 @@ class _PiecesPageState extends State<PiecesPage> {
     final newPieces = pieces
         .map((e) =>
             e.copyWith(tags: e.tags..sort((a, b) => a.tag.compareTo(b.tag))))
-        .where((piece) => piece.name.contains(searchNotifier.value))
+        .where((piece) => piece.name
+            .toLowerCase()
+            .contains(searchNotifier.value.toLowerCase()))
         .where(filterNotifier.value.filter)
         .toList();
 
