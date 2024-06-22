@@ -36,8 +36,6 @@ class MobilePiecesPage extends StatelessWidget {
               ),
               getSearchRow(),
               const SizedBox(height: 16),
-              getLayoutRow(),
-              const SizedBox(height: 16),
               getListTable()
             ],
           ),
@@ -87,22 +85,6 @@ class MobilePiecesPage extends StatelessWidget {
           onTap: () {},
           child: const Icon(Icons.filter_alt_outlined),
         )
-      ],
-    );
-  }
-
-  Widget getLayoutRow() {
-    return Row(
-      children: [
-        const Expanded(
-            child: Text(
-          "Results",
-          style: TextStyle(fontSize: 16),
-        )),
-        InkWell(
-          onTap: () {},
-          child: const Icon(Icons.grid_view_outlined),
-        ),
       ],
     );
   }
