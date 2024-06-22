@@ -14,13 +14,7 @@ class MobilePiecesPage extends StatefulWidget {
 }
 
 class _MobilePiecesPageState extends State<MobilePiecesPage> {
-  final searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
-  }
+  final ValueNotifier<String> _searchNotifier = ValueNotifier<String>('');
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +37,20 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
               const SizedBox(height: 16),
               Consumer<GlobalState>(
                 builder: (context, state, child) {
-                  final pieces = getPieces(state.pieces);
-                  return Expanded(
-                    child: ListView.separated(
-                      itemBuilder: (_, i) => MobilePieceTile(piece: pieces[i]),
-                      separatorBuilder: (_, __) => const SizedBox(height: 20),
-                      itemCount: pieces.length,
-                    ),
-                  );
+                  return ValueListenableBuilder(
+                      valueListenable: _searchNotifier,
+                      builder: (context, _, child) {
+                        final pieces = getPieces(state.pieces);
+                        return Expanded(
+                          child: ListView.separated(
+                            itemBuilder: (_, i) =>
+                                MobilePieceTile(piece: pieces[i]),
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(height: 20),
+                            itemCount: pieces.length,
+                          ),
+                        );
+                      });
                 },
               )
             ],
@@ -64,7 +64,7 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
     final newPieces = pieces
         .map((e) =>
             e.copyWith(tags: e.tags..sort((a, b) => a.tag.compareTo(b.tag))))
-        .where((piece) => piece.name.contains(searchController.text))
+        .where((piece) => piece.name.contains(_searchNotifier.value))
         .toList();
 
     newPieces.sort((a, b) => b.addedAt.compareTo(a.addedAt));
@@ -80,7 +80,7 @@ class _MobilePiecesPageState extends State<MobilePiecesPage> {
               icon: Icon(Icons.search),
               hintText: "Search",
             ),
-            controller: searchController,
+            onChanged: (value) => _searchNotifier.value = value,
           ),
         ),
         const SizedBox(width: 16),
