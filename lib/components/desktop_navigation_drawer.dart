@@ -27,9 +27,12 @@ class DesktopNavigationDrawer extends StatelessWidget {
         if (index == selectedIndex) return;
         Navigator.of(context).pushNamed(routes.keys.elementAt(index));
       },
-      leading: Text(
-        "Sonata",
-        style: GoogleFonts.greatVibes(fontSize: 89, letterSpacing: -1.5),
+      leading: Padding(
+        padding: const EdgeInsets.only(top: 48),
+        child: Text(
+          "Sonata",
+          style: GoogleFonts.greatVibes(fontSize: 89, letterSpacing: -1.5),
+        ),
       ),
       destinations: routes.keys
           .map((key) => NavigationRailDestination(
