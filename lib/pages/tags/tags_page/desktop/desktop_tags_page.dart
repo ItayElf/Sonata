@@ -6,6 +6,7 @@ import 'package:sonata/components/tags/mobile_tag_card.dart';
 import 'package:sonata/models/tag.dart';
 import 'package:sonata/pages/tags/tags_edit/tags_edit.dart';
 import 'package:sonata/state/global_state.dart';
+import 'package:sonata/state/state_guard.dart';
 
 class DesktopTagsPage extends StatelessWidget {
   const DesktopTagsPage(
@@ -21,35 +22,37 @@ class DesktopTagsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        floatingActionButton: getFloatingButton(context),
-        body: Row(
-          children: [
-            const IntrinsicWidth(
-              child: DesktopNavigationDrawer(
-                selectedIndex: 1,
-              ),
-            ),
-            const VerticalDivider(thickness: 0, width: 0),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(72, 48, 72, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Tags",
-                      style: GoogleFonts.greatVibes(
-                          fontSize: 89, letterSpacing: -0.5),
-                    ),
-                    const SizedBox(height: 40),
-                    getTagsGrid(),
-                  ],
+    return StateGuard(
+      child: SafeArea(
+        child: Scaffold(
+          floatingActionButton: getFloatingButton(context),
+          body: Row(
+            children: [
+              const IntrinsicWidth(
+                child: DesktopNavigationDrawer(
+                  selectedIndex: 1,
                 ),
               ),
-            ),
-          ],
+              const VerticalDivider(thickness: 0, width: 0),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(72, 48, 72, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tags",
+                        style: GoogleFonts.greatVibes(
+                            fontSize: 89, letterSpacing: -0.5),
+                      ),
+                      const SizedBox(height: 40),
+                      getTagsGrid(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
