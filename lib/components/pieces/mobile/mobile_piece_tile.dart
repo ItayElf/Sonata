@@ -13,7 +13,7 @@ class MobilePieceTile extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: () =>
-            Navigator.of(context).pushNamed("/piece", arguments: piece),
+            Navigator.of(context).pushNamed("/piece", arguments: piece.id),
         dense: true,
         title: Text(
           piece.name,
