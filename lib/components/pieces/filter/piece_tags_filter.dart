@@ -93,7 +93,6 @@ class _PieceTagsFilterState extends State<PieceTagsFilter> {
           focusNode: inputFieldValues.focusNode,
           decoration: InputDecoration(
             isDense: true,
-            helperText: "Tags to filter",
             errorText: inputFieldValues.error,
             prefixIconConstraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.74,

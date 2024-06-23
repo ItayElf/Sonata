@@ -6,6 +6,7 @@ import 'package:sonata/components/pieces/mobile/mobile_piece_filter_modal.dart';
 import 'package:sonata/components/pieces/mobile/mobile_piece_tile.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
+import 'package:sonata/pages/pieces/piece_edit/mobile_piece_edit.dart';
 import 'package:sonata/state/global_state.dart';
 
 class MobilePiecesPage extends StatelessWidget {
@@ -50,7 +51,16 @@ class MobilePiecesPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => MobilePieceEdit(
+                oldPiece: null,
+                tags: Provider.of<GlobalState>(context, listen: false).tags,
+              ),
+            ),
+          );
+        },
         tooltip: "New Piece",
         child: const Icon(Icons.add),
       ),
