@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sonata/communication/pieces.dart';
 import 'package:sonata/components/pieces/filter/piece_filter_state.dart';
 import 'package:sonata/components/pieces/filter/piece_instrument_filter.dart';
 import 'package:sonata/components/pieces/filter/piece_tags_filter.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/tag.dart';
+import 'package:sonata/state/global_state.dart';
 
 class MobilePieceEdit extends StatefulWidget {
   const MobilePieceEdit({
@@ -96,7 +99,7 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
                 PieceTagsFilter(
                   notifier: tagsNotifier,
                   tags: widget.tags,
-                  offsetResults: -60,
+                  offsetResults: -36,
                 ),
                 const SizedBox(height: 48),
                 const Text(
@@ -124,11 +127,30 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
       onError(context, error);
       return;
     }
+    if (widget.oldPiece == null) {
+      onAdd();
+    } else {
+      onEdit();
+    }
   }
 
   String? validate() {
     if (nameController.text.isEmpty) return "Name cannot be empty!";
     return null;
+  }
+
+  Future onEdit() async {}
+
+  Future onAdd() async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await addPieceRequest(currentPiece, state.token);
+    if (result.isError) {
+      if (context.mounted) {
+        onError(context, result.error!);
+      }
+    }
+    state.addPiece(result.data!);
+    if (context.mounted) Navigator.of(context).pop();
   }
 
   void onError(BuildContext context, String error) {

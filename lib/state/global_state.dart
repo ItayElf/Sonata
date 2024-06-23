@@ -55,4 +55,9 @@ class GlobalState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void addPiece(Piece piece) {
+    _pieces.add(piece);
+    notifyListeners();
+  }
 }
