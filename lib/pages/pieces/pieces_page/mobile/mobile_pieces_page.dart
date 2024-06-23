@@ -25,6 +25,7 @@ class MobilePiecesPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: const MobileNavigationBar(selectedIndex: 0),
+        floatingActionButton: getFloatingButton(context),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(24, 36, 24, 0),
           child: Column(
@@ -41,6 +42,17 @@ class MobilePiecesPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget getFloatingButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: FloatingActionButton(
+        onPressed: () {},
+        tooltip: "New Piece",
+        child: const Icon(Icons.add),
       ),
     );
   }

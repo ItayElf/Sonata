@@ -26,6 +26,7 @@ class DesktopPiecesPage extends StatelessWidget {
     return StateGuard(
       child: SafeArea(
         child: Scaffold(
+          floatingActionButton: getFloatingButton(context),
           body: Row(
             children: [
               const IntrinsicWidth(
@@ -53,6 +54,21 @@ class DesktopPiecesPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget getFloatingButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: FloatingActionButton.extended(
+        label: const Text(
+          "New Piece",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        onPressed: () => {},
+        tooltip: "New Piece",
+        icon: const Icon(Icons.add),
       ),
     );
   }

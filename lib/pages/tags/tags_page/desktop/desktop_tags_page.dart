@@ -62,7 +62,7 @@ class DesktopTagsPage extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: FloatingActionButton.extended(
         label: const Text(
-          "New Label",
+          "New Tag",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         onPressed: () => showDialog(
