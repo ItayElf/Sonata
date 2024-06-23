@@ -62,8 +62,12 @@ class Piece {
       'instrument': instrument,
       'state': state,
       'user_id': userId,
-      'added_at':
-          addedAt.toIso8601String().split('.').first.replaceFirst('T', ' '),
+      'added_at': addedAt
+          .toUtc()
+          .toIso8601String()
+          .split('.')
+          .first
+          .replaceFirst('T', ' '),
       'file_id': fileId,
       'file_type': fileType,
       'tags': tags.map((x) => x.toMap()).toList(),

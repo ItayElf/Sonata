@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:sonata/components/pieces/filter/piece_filter_state.dart';
 import 'package:sonata/components/pieces/filter/piece_instrument_filter.dart';
 import 'package:sonata/components/pieces/filter/piece_tags_filter.dart';
