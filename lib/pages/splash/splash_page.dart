@@ -53,7 +53,7 @@ class _SplashPageState extends State<SplashPage> {
     if (_user != null && _token != null) {
       Provider.of<GlobalState>(context, listen: false)
           .initialize(_user!, _token!);
-      Navigator.of(context).pushReplacementNamed("/tags");
+      Navigator.of(context).pushReplacementNamed("/pieces");
     } else {
       Navigator.of(context).pushReplacementNamed("/login");
     }
