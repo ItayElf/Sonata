@@ -8,21 +8,17 @@ import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/tag.dart';
 import 'package:sonata/state/global_state.dart';
 
-class MobilePieceEdit extends StatefulWidget {
-  const MobilePieceEdit({
-    super.key,
-    required this.oldPiece,
-    required this.tags,
-  });
+class DesktopPieceEdit extends StatefulWidget {
+  const DesktopPieceEdit({super.key, this.oldPiece, required this.tags});
 
   final Piece? oldPiece;
   final List<Tag> tags;
 
   @override
-  State<MobilePieceEdit> createState() => _MobilePieceEditState();
+  State<DesktopPieceEdit> createState() => _DesktopPieceEditState();
 }
 
-class _MobilePieceEditState extends State<MobilePieceEdit> {
+class _DesktopPieceEditState extends State<DesktopPieceEdit> {
   late ValueNotifier<List<int>> stateNotifier;
   late ValueNotifier<List<Tag>> tagsNotifier;
   late ValueNotifier<String?> instrumentNotifier;
@@ -50,74 +46,67 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          centerTitle: true,
-          title: Text(widget.oldPiece == null ? "New Piece" : "Edit Piece"),
-          actions: [
-            TextButton(
-              onPressed: () => onAccept(context),
-              child: const Icon(Icons.check),
-            )
+    return AlertDialog(
+      title: Center(
+        child: Text(widget.oldPiece == null ? "New Piece" : "Edit Piece"),
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width / 3,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              textAlign: TextAlign.center,
+              textCapitalization: TextCapitalization.sentences,
+              style: const TextStyle(fontSize: 24),
+              decoration: const InputDecoration(
+                hintText: "Piece Name",
+              ),
+            ),
+            const SizedBox(height: 48),
+            const Text(
+              "Description:",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            TextField(
+              controller: descriptionController,
+              textCapitalization: TextCapitalization.sentences,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
+              maxLines: null,
+            ),
+            const SizedBox(height: 48),
+            const Text(
+              "Tags",
+              style: TextStyle(fontSize: 18),
+            ),
+            PieceTagsFilter(
+              notifier: tagsNotifier,
+              tags: widget.tags,
+              offsetResults: 0,
+            ),
+            const SizedBox(height: 48),
+            const Text(
+              "State",
+              style: TextStyle(fontSize: 18),
+            ),
+            PieceFilterState(stateNotifier, isUnique: true),
+            const SizedBox(height: 48),
+            const Text(
+              "Instrument",
+              style: TextStyle(fontSize: 18),
+            ),
+            PieceInstrumentFilter(notifier: instrumentNotifier),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: nameController,
-                  textAlign: TextAlign.center,
-                  textCapitalization: TextCapitalization.sentences,
-                  style: const TextStyle(fontSize: 24),
-                  decoration: const InputDecoration(
-                    hintText: "Piece Name",
-                  ),
-                ),
-                const SizedBox(height: 48),
-                const Text(
-                  "Description:",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-                TextField(
-                  controller: descriptionController,
-                  textCapitalization: TextCapitalization.sentences,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  maxLines: null,
-                ),
-                const SizedBox(height: 48),
-                const Text(
-                  "Tags",
-                  style: TextStyle(fontSize: 18),
-                ),
-                PieceTagsFilter(
-                  notifier: tagsNotifier,
-                  tags: widget.tags,
-                  offsetResults: -36,
-                ),
-                const SizedBox(height: 48),
-                const Text(
-                  "State",
-                  style: TextStyle(fontSize: 18),
-                ),
-                PieceFilterState(stateNotifier, isUnique: true),
-                const SizedBox(height: 48),
-                const Text(
-                  "Instrument",
-                  style: TextStyle(fontSize: 18),
-                ),
-                PieceInstrumentFilter(notifier: instrumentNotifier),
-              ],
-            ),
-          ),
-        ),
       ),
+      actions: [
+        ElevatedButton(
+            onPressed: () => onAccept(context), child: const Text("Apply"))
+      ],
     );
   }
 
@@ -154,7 +143,25 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
   }
 
   void onError(BuildContext context, String error) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Error"),
+        content: Text(
+          error,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(
+              "Ok",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Piece get currentPiece => Piece(

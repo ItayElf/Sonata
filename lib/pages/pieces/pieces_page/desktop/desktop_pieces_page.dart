@@ -6,6 +6,7 @@ import 'package:sonata/components/pieces/desktop/desktop_piece_filter_modal.dart
 import 'package:sonata/components/pieces/desktop/desktop_piece_row.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
+import 'package:sonata/pages/pieces/piece_edit/desktop_piece_edit.dart';
 import 'package:sonata/state/global_state.dart';
 import 'package:sonata/state/state_guard.dart';
 
@@ -66,7 +67,15 @@ class DesktopPiecesPage extends StatelessWidget {
           "New Piece",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        onPressed: () => {},
+        onPressed: () => {
+          showDialog(
+            context: context,
+            builder: (context) => DesktopPieceEdit(
+              oldPiece: null,
+              tags: Provider.of<GlobalState>(context, listen: false).tags,
+            ),
+          )
+        },
         tooltip: "New Piece",
         icon: const Icon(Icons.add),
       ),
