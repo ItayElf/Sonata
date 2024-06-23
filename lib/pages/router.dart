@@ -1,5 +1,6 @@
 import 'package:sonata/pages/auth/login_page.dart';
 import 'package:sonata/pages/auth/register_page.dart';
+import 'package:sonata/pages/pieces/piece_page/mobile/mobile_piece_page.dart';
 import 'package:sonata/pages/pieces/pieces_page/pieces_page.dart';
 import 'package:sonata/pages/splash/splash_page.dart';
 import 'package:sonata/pages/tags/tags_page/tags_page.dart';
@@ -12,4 +13,5 @@ final appRoutes = {
   "/register": (ctx) => const RegisterPage(),
   "/tags": (ctx) => const TagsPage(),
   "/pieces": (ctx) => const PiecesPage(),
+  "/piece": (ctx) => const MobilePiecePage(),
 };

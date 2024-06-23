@@ -3,9 +3,10 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:sonata/models/tag.dart';
 
 class MobilePieceTag extends StatelessWidget {
-  const MobilePieceTag({super.key, required this.tag});
+  const MobilePieceTag({super.key, required this.tag, this.fontSize = 14});
 
   final Tag tag;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,11 @@ class MobilePieceTag extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
       child: Text(
         "#${tag.tag}",
-        style:
-            const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
+        style: TextStyle(
+          fontStyle: FontStyle.italic,
+          color: Colors.black,
+          fontSize: fontSize,
+        ),
       ),
     );
   }
