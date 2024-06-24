@@ -4,6 +4,7 @@ import 'package:sonata/communication/files.dart';
 import 'package:sonata/components/future_elevated_button.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/state/global_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PieceAttachmentButtons extends StatelessWidget {
   const PieceAttachmentButtons({super.key, required this.piece});
@@ -54,7 +55,11 @@ class PieceAttachmentButtons extends StatelessWidget {
         builder: (context) => _LinkUploadDialog(piece: piece));
   }
 
-  Future onOpenAttachment(BuildContext context) async {}
+  Future onOpenAttachment(BuildContext context) async {
+    if (piece.fileType?.startsWith("http") ?? false) {
+      return await launchUrl(Uri.parse(piece.fileType!));
+    }
+  }
 
   Future onRemoveAttachment(BuildContext context) async {
     final state = Provider.of<GlobalState>(context, listen: false);
