@@ -53,3 +53,19 @@ Future<Result<Piece>> addPieceRequest(
 
   return Result(data: Piece.fromJson(response.body));
 }
+
+Future<Result<Null>> deletePieceRequest(Piece piece, String accessToken) async {
+  final response = await postRequest(
+    "$_piecesUrl/delete",
+    token: accessToken,
+    body: jsonEncode({
+      "id": piece.id,
+    }),
+  );
+
+  if (response.statusCode != 200) {
+    return Result(error: response.body);
+  }
+
+  return const Result(data: null);
+}

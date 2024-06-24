@@ -184,7 +184,20 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
     if (context.mounted) Navigator.of(context).pop();
   }
 
-  Future onDelete(BuildContext context) async {}
+  Future onDelete(BuildContext context) async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await deletePieceRequest(widget.oldPiece!, state.token);
+    if (result.isError) {
+      if (context.mounted) {
+        onError(context, result.error!);
+      }
+    }
+    state.deletePiece(widget.oldPiece!);
+    if (context.mounted) {
+      Navigator.of(context)
+          .popUntil((route) => route.settings.name == "/pieces");
+    }
+  }
 
   void onError(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));

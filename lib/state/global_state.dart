@@ -65,4 +65,9 @@ class GlobalState extends ChangeNotifier {
     _pieces.add(piece);
     notifyListeners();
   }
+
+  void deletePiece(Piece piece) {
+    _pieces.removeWhere((element) => element.id == piece.id);
+    notifyListeners();
+  }
 }
