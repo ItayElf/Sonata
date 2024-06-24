@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/pieces/mobile/mobile_piece_tag.dart';
+import 'package:sonata/components/pieces/piece_attachment_buttons.dart';
 import 'package:sonata/design/piece_strings.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/tag.dart';
@@ -69,7 +70,10 @@ class MobilePiecePage extends StatelessWidget {
                       const SizedBox(height: 24),
                     ],
                     if (piece.tags.isNotEmpty) ...getTags(piece),
-                    getInstrumentStateLine(piece)
+                    getInstrumentStateLine(piece),
+                    const SizedBox(height: 64),
+                    Center(child: PieceAttachmentButtons(piece: piece)),
+                    const SizedBox(height: 64),
                   ],
                 ),
               ),
