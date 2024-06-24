@@ -8,7 +8,7 @@ const _filesUrl = "$apiUrl/files";
 
 Future<Result<Piece>> uploadLinkRequest(
   String pieceId,
-  String link,
+  String? link,
   String accessToken,
 ) async {
   final response = await postRequest(

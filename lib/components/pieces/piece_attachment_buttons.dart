@@ -35,7 +35,13 @@ class PieceAttachmentButtons extends StatelessWidget {
       const SizedBox(height: 24),
       FutureElevatedButton(
         onPressed: () => onRemoveAttachment(context),
-        child: const Text("Remove attachment"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red.shade50,
+        ),
+        child: Text(
+          "Remove attachment",
+          style: TextStyle(color: Colors.red.shade700),
+        ),
       ),
     ]);
   }
@@ -50,7 +56,22 @@ class PieceAttachmentButtons extends StatelessWidget {
 
   Future onOpenAttachment(BuildContext context) async {}
 
-  Future onRemoveAttachment(BuildContext context) async {}
+  Future onRemoveAttachment(BuildContext context) async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await uploadLinkRequest(
+      piece.id,
+      null,
+      state.token,
+    );
+    if (result.isError) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(result.error!)));
+      }
+      return;
+    }
+    state.editPiece(piece, result.data!);
+  }
 }
 
 class _LinkUploadDialog extends StatefulWidget {
