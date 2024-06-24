@@ -110,7 +110,9 @@ class _LinkUploadDialogState extends State<_LinkUploadDialog> {
       return;
     }
     state.editPiece(widget.piece, result.data!);
-    Navigator.of(context, rootNavigator: true).pop()
+    if (context.mounted) {
+      Navigator.of(context, rootNavigator: true).pop();
+    }
   }
 
   void showError(BuildContext context, String error) {
