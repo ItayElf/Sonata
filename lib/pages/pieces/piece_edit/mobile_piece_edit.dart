@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/communication/pieces.dart';
+import 'package:sonata/components/future_elevated_button.dart';
 import 'package:sonata/components/pieces/filter/piece_filter_state.dart';
 import 'package:sonata/components/pieces/filter/piece_instrument_filter.dart';
 import 'package:sonata/components/pieces/filter/piece_tags_filter.dart';
@@ -72,7 +74,7 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
                   controller: nameController,
                   textAlign: TextAlign.center,
                   textCapitalization: TextCapitalization.sentences,
-                  style: const TextStyle(fontSize: 24),
+                  style: GoogleFonts.greatVibes(fontSize: 36),
                   decoration: const InputDecoration(
                     hintText: "Piece Name",
                   ),
@@ -113,6 +115,21 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
                   style: TextStyle(fontSize: 18),
                 ),
                 PieceInstrumentFilter(notifier: instrumentNotifier),
+                if (widget.oldPiece != null) ...[
+                  const SizedBox(height: 48),
+                  FutureElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red.shade50,
+                    ),
+                    onPressed: () => onDelete(context),
+                    child: Text(
+                      "Delete Piece",
+                      style: TextStyle(
+                        color: Colors.red.shade700,
+                      ),
+                    ),
+                  )
+                ]
               ],
             ),
           ),
@@ -166,6 +183,8 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
     state.addPiece(result.data!);
     if (context.mounted) Navigator.of(context).pop();
   }
+
+  Future onDelete(BuildContext context) async {}
 
   void onError(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
