@@ -138,6 +138,8 @@ class MobilePiecePage extends StatelessWidget {
   }
 
   List<Widget> getTags(Piece piece) {
+    final tags = List.from(piece.tags);
+    tags.sort((a, b) => a.tag.compareTo(b.tag));
     return [
       const Text(
         "Tags:",
@@ -150,9 +152,8 @@ class MobilePiecePage extends StatelessWidget {
       Wrap(
         runSpacing: 4,
         spacing: 4,
-        children: piece.tags
-            .map((e) => MobilePieceTag(tag: e, fontSize: 16))
-            .toList(),
+        children:
+            tags.map((e) => MobilePieceTag(tag: e, fontSize: 16)).toList(),
       ),
       const SizedBox(height: 24),
     ];
