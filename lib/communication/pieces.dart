@@ -6,6 +6,31 @@ import 'package:sonata/models/piece.dart';
 
 const _piecesUrl = "$apiUrl/pieces";
 
+Future<Result<Piece>> editPieceRequest(
+  Piece oldPiece,
+  Piece newPiece,
+  String accessToken,
+) async {
+  final response = await postRequest(
+    "$_piecesUrl/edit",
+    token: accessToken,
+    body: jsonEncode({
+      "id": oldPiece.id,
+      "name": newPiece.name,
+      "description": newPiece.description,
+      "instrument": newPiece.instrument,
+      "state": newPiece.state,
+      "tag_ids": newPiece.tags.map((e) => e.id).toList(),
+    }),
+  );
+
+  if (response.statusCode != 200) {
+    return Result(error: response.body);
+  }
+
+  return Result(data: Piece.fromJson(response.body));
+}
+
 Future<Result<Piece>> addPieceRequest(
   Piece piece,
   String accessToken,

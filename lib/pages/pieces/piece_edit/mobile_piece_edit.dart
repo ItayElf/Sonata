@@ -139,7 +139,21 @@ class _MobilePieceEditState extends State<MobilePieceEdit> {
     return null;
   }
 
-  Future onEdit(BuildContext context) async {}
+  Future onEdit(BuildContext context) async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await editPieceRequest(
+      widget.oldPiece!,
+      currentPiece,
+      state.token,
+    );
+    if (result.isError) {
+      if (context.mounted) {
+        onError(context, result.error!);
+      }
+    }
+    state.editPiece(widget.oldPiece!, result.data!);
+    if (context.mounted) Navigator.of(context).pop();
+  }
 
   Future onAdd(BuildContext context) async {
     final state = Provider.of<GlobalState>(context, listen: false);

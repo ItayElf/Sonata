@@ -56,6 +56,11 @@ class GlobalState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editPiece(Piece oldPiece, Piece newPiece) {
+    _pieces = _pieces.map((e) => e.id == oldPiece.id ? newPiece : e).toList();
+    notifyListeners();
+  }
+
   void addPiece(Piece piece) {
     _pieces.add(piece);
     notifyListeners();
