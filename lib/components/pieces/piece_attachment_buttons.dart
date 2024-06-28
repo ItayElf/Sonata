@@ -57,6 +57,7 @@ class PieceAttachmentButtons extends StatelessWidget {
       return;
     }
     final file = File(fileResult.files.single.path!);
+    if (!context.mounted) return;
     final state = Provider.of<GlobalState>(context, listen: false);
     final result = await uploadFileRequest(
       piece.id,
@@ -83,6 +84,7 @@ class PieceAttachmentButtons extends StatelessWidget {
     if (piece.fileType?.startsWith("http") ?? false) {
       return await launchUrl(Uri.parse(piece.fileType!));
     }
+    return await launchUrl(Uri.parse("$fileViewUrl/${piece.fileId!}"));
   }
 
   Future onRemoveAttachment(BuildContext context) async {

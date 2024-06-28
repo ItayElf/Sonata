@@ -7,6 +7,7 @@ import 'package:sonata/communication/result.dart';
 import 'package:sonata/models/piece.dart';
 
 const _filesUrl = "$apiUrl/files";
+const fileViewUrl = "$apiUrl/files/file";
 
 Future<Result<Piece>> uploadLinkRequest(
   String pieceId,
