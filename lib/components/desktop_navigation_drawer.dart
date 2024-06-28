@@ -9,9 +9,9 @@ class DesktopNavigationDrawer extends StatelessWidget {
   static const routes = {
     "/pieces": Icons.library_music_outlined,
     "/tags": Icons.label_outline,
-    "/home": Icons.home_outlined,
-    "/statistics": Icons.leaderboard_outlined,
-    "/settings": Icons.settings_outlined
+    // "/home": Icons.home_outlined,
+    // "/statistics": Icons.leaderboard_outlined,
+    // "/settings": Icons.settings_outlined
   };
 
   @override
