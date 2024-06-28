@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
+
 import 'package:sonata/communication/base.dart';
 import 'package:sonata/communication/result.dart';
 import 'package:sonata/models/piece.dart';
@@ -11,9 +12,8 @@ import 'package:sonata/models/piece.dart';
 const _filesUrl = "$apiUrl/files";
 const fileViewUrl = "$apiUrl/files/file";
 
-Future<String?> _getMimeType(File file) async {
-  final bytes = await file.readAsBytes();
-  final mimeType = lookupMimeType(file.path, headerBytes: bytes);
+Future<String?> _getMimeType(Uint8List fileContent) async {
+  final mimeType = lookupMimeType("", headerBytes: fileContent);
   return mimeType;
 }
 
@@ -40,14 +40,18 @@ Future<Result<Piece>> uploadLinkRequest(
 
 Future<Result<Piece>> uploadFileRequest(
   String pieceId,
-  File file,
+  Uint8List fileContent,
   String accessToken,
 ) async {
   final request =
       http.MultipartRequest("POST", Uri.parse("$_filesUrl/upload_file"));
-  final contentType = MediaType.parse(await _getMimeType(file) ?? "");
-  request.files.add(await http.MultipartFile.fromPath('file', file.path,
-      contentType: contentType));
+  final contentType = MediaType.parse(await _getMimeType(fileContent) ?? "");
+  request.files.add(http.MultipartFile.fromBytes(
+    'file',
+    fileContent,
+    filename: "uploaded",
+    contentType: contentType,
+  ));
   request.fields["id"] = pieceId;
   request.headers["Authorization"] = "Bearer $accessToken";
 

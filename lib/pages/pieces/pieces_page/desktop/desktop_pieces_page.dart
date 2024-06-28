@@ -4,6 +4,7 @@ import 'package:sonata/components/desktop_navigation_drawer.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/pages/pieces/piece_edit/desktop_piece_edit.dart';
+import 'package:sonata/pages/pieces/piece_page/desktop/desktop_piece_view.dart';
 import 'package:sonata/pages/pieces/pieces_page/desktop/desktop_pieces_table.dart';
 import 'package:sonata/state/global_state.dart';
 
@@ -31,6 +32,8 @@ class _DesktopPiecesPageState extends State<DesktopPiecesPage>
       .animate(_animationController)
     ..addListener(() => setState(() {}));
 
+  Piece? _selectedPiece;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,21 +54,19 @@ class _DesktopPiecesPageState extends State<DesktopPiecesPage>
                 filterNotifier: widget.filterNotifier,
                 getFilteredPieces: widget.getFilteredPieces,
                 onPieceClicked: (piece) {
-                  if (_animationController.value == 0) {
-                    _animationController.forward();
-                  } else {
-                    _animationController.reverse();
-                  }
+                  _animationController.forward();
+                  setState(() {
+                    _selectedPiece = piece;
+                  });
                 },
               ),
             ),
             Flexible(
               flex: _animation.value,
               child: Container(
-                color: Theme.of(context)
-                    .colorScheme
-                    .primaryContainer
-                    .withAlpha(50),
+                child: _selectedPiece != null
+                    ? DesktopPieceView(pieceId: _selectedPiece!.id)
+                    : Container(),
               ),
             ),
           ],

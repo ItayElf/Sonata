@@ -38,7 +38,12 @@ class _FutureElevatedButtonState extends State<FutureElevatedButton> {
     setState(() {
       isDisabled = true;
     });
-    await widget.onPressed!();
+    try {
+      await widget.onPressed!();
+    } catch (e) {
+      print("Error: $e");
+      debugPrintStack();
+    }
     if (context.mounted) {
       setState(() {
         isDisabled = false;

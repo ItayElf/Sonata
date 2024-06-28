@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,12 +54,12 @@ class PieceAttachmentButtons extends StatelessWidget {
     if (fileResult == null) {
       return;
     }
-    final file = File(fileResult.files.single.path!);
+    final bytes = fileResult.files.single.bytes!;
     if (!context.mounted) return;
     final state = Provider.of<GlobalState>(context, listen: false);
     final result = await uploadFileRequest(
       piece.id,
-      file,
+      bytes,
       state.token,
     );
     if (result.isError) {

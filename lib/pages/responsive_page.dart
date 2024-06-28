@@ -14,7 +14,7 @@ class ResponsivePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 768) {
+        if (MediaQuery.of(context).size.width < 768) {
           return mobile;
         }
         return desktop;
