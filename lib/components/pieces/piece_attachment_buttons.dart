@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/communication/files.dart';
@@ -47,7 +50,28 @@ class PieceAttachmentButtons extends StatelessWidget {
     ]);
   }
 
-  Future onUploadFile(BuildContext context) async {}
+  Future onUploadFile(BuildContext context) async {
+    final fileResult = await FilePicker.platform.pickFiles();
+
+    if (fileResult == null) {
+      return;
+    }
+    final file = File(fileResult.files.single.path!);
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await uploadFileRequest(
+      piece.id,
+      file,
+      state.token,
+    );
+    if (result.isError) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(result.error!)));
+      }
+      return;
+    }
+    state.editPiece(piece, result.data!);
+  }
 
   Future onUploadLink(BuildContext context) async {
     showDialog(

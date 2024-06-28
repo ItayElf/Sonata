@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-const baseUrl = "http://192.168.68.54:5000";
+const baseUrl = "http://192.168.173.173:5000";
 const apiUrl = "$baseUrl/api";
 
 Future<http.Response> postRequest(
