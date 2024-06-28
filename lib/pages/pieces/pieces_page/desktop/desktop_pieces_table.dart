@@ -6,7 +6,6 @@ import 'package:sonata/components/pieces/desktop/desktop_piece_row.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/state/global_state.dart';
-import 'package:sonata/state/state_guard.dart';
 
 class DesktopPiecesTable extends StatelessWidget {
   const DesktopPiecesTable({
@@ -75,22 +74,20 @@ class DesktopPiecesTable extends StatelessWidget {
   }
 
   Widget getTableWrapper() {
-    return StateGuard(
-      child: Consumer<GlobalState>(
-        builder: (context, state, child) {
-          return ValueListenableBuilder(
-              valueListenable: searchNotifier,
-              builder: (context, _, child) {
-                return ValueListenableBuilder(
-                  valueListenable: filterNotifier,
-                  builder: (context, _, child) {
-                    final pieces = getFilteredPieces(state.pieces);
-                    return getPiecesTable(pieces);
-                  },
-                );
-              });
-        },
-      ),
+    return Consumer<GlobalState>(
+      builder: (context, state, child) {
+        return ValueListenableBuilder(
+            valueListenable: searchNotifier,
+            builder: (context, _, child) {
+              return ValueListenableBuilder(
+                valueListenable: filterNotifier,
+                builder: (context, _, child) {
+                  final pieces = getFilteredPieces(state.pieces);
+                  return getPiecesTable(pieces);
+                },
+              );
+            });
+      },
     );
   }
 

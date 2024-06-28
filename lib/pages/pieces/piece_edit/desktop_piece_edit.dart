@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/communication/pieces.dart';
 import 'package:sonata/components/pieces/filter/piece_filter_state.dart';
@@ -47,6 +48,9 @@ class _DesktopPieceEditState extends State<DesktopPieceEdit> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      actionsAlignment: widget.oldPiece == null
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.spaceBetween,
       title: Center(
         child: Text(widget.oldPiece == null ? "New Piece" : "Edit Piece"),
       ),
@@ -59,7 +63,7 @@ class _DesktopPieceEditState extends State<DesktopPieceEdit> {
               controller: nameController,
               textAlign: TextAlign.center,
               textCapitalization: TextCapitalization.sentences,
-              style: const TextStyle(fontSize: 24),
+              style: GoogleFonts.greatVibes(fontSize: 36),
               decoration: const InputDecoration(
                 hintText: "Piece Name",
               ),
@@ -76,7 +80,8 @@ class _DesktopPieceEditState extends State<DesktopPieceEdit> {
               textCapitalization: TextCapitalization.sentences,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.newline,
-              maxLines: null,
+              maxLines: 5,
+              minLines: 1,
             ),
             const SizedBox(height: 48),
             const Text(
@@ -104,6 +109,16 @@ class _DesktopPieceEditState extends State<DesktopPieceEdit> {
         ),
       ),
       actions: [
+        if (widget.oldPiece != null)
+          ElevatedButton(
+            onPressed: () => onDelete(context),
+            child: const Text(
+              "Delete Piece",
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          ),
         ElevatedButton(
             onPressed: () => onAccept(context), child: const Text("Apply"))
       ],
@@ -128,7 +143,21 @@ class _DesktopPieceEditState extends State<DesktopPieceEdit> {
     return null;
   }
 
-  Future onEdit(BuildContext context) async {}
+  Future onEdit(BuildContext context) async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await editPieceRequest(
+      widget.oldPiece!,
+      currentPiece,
+      state.token,
+    );
+    if (result.isError) {
+      if (context.mounted) {
+        onError(context, result.error!);
+      }
+    }
+    state.editPiece(widget.oldPiece!, result.data!);
+    if (context.mounted) Navigator.of(context).pop();
+  }
 
   Future onAdd(BuildContext context) async {
     final state = Provider.of<GlobalState>(context, listen: false);
@@ -140,6 +169,21 @@ class _DesktopPieceEditState extends State<DesktopPieceEdit> {
     }
     state.addPiece(result.data!);
     if (context.mounted) Navigator.of(context).pop();
+  }
+
+  Future onDelete(BuildContext context) async {
+    final state = Provider.of<GlobalState>(context, listen: false);
+    final result = await deletePieceRequest(widget.oldPiece!, state.token);
+    if (result.isError) {
+      if (context.mounted) {
+        onError(context, result.error!);
+      }
+    }
+    state.deletePiece(widget.oldPiece!);
+    if (context.mounted) {
+      Navigator.of(context)
+          .popUntil((route) => route.settings.name == "/pieces");
+    }
   }
 
   void onError(BuildContext context, String error) {

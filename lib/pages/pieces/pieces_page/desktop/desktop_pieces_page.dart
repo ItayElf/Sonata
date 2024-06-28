@@ -7,6 +7,7 @@ import 'package:sonata/pages/pieces/piece_edit/desktop_piece_edit.dart';
 import 'package:sonata/pages/pieces/piece_page/desktop/desktop_piece_view.dart';
 import 'package:sonata/pages/pieces/pieces_page/desktop/desktop_pieces_table.dart';
 import 'package:sonata/state/global_state.dart';
+import 'package:sonata/state/state_guard.dart';
 
 class DesktopPiecesPage extends StatefulWidget {
   const DesktopPiecesPage({
@@ -36,65 +37,84 @@ class _DesktopPiecesPageState extends State<DesktopPiecesPage>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        floatingActionButton: getFloatingButton(context),
-        body: Row(
-          children: [
-            const IntrinsicWidth(
-              child: DesktopNavigationDrawer(
-                selectedIndex: 0,
+    return StateGuard(
+      child: SafeArea(
+        child: Scaffold(
+          floatingActionButton: _FloatingButton(
+            selectedPiece: _selectedPiece,
+          ),
+          body: Row(
+            children: [
+              const IntrinsicWidth(
+                child: DesktopNavigationDrawer(
+                  selectedIndex: 0,
+                ),
               ),
-            ),
-            const VerticalDivider(thickness: 0, width: 0),
-            Flexible(
-              flex: 100,
-              child: DesktopPiecesTable(
-                searchNotifier: widget.searchNotifier,
-                filterNotifier: widget.filterNotifier,
-                getFilteredPieces: widget.getFilteredPieces,
-                onPieceClicked: (piece) {
-                  _animationController.forward();
-                  setState(() {
-                    _selectedPiece = piece;
-                  });
-                },
+              const VerticalDivider(thickness: 0, width: 0),
+              Flexible(
+                flex: 100,
+                child: DesktopPiecesTable(
+                  searchNotifier: widget.searchNotifier,
+                  filterNotifier: widget.filterNotifier,
+                  getFilteredPieces: widget.getFilteredPieces,
+                  onPieceClicked: (piece) {
+                    _animationController.forward();
+                    setState(() {
+                      _selectedPiece = piece;
+                    });
+                  },
+                ),
               ),
-            ),
-            Flexible(
-              flex: _animation.value,
-              child: Container(
-                child: _selectedPiece != null
-                    ? DesktopPieceView(pieceId: _selectedPiece!.id)
-                    : Container(),
+              Flexible(
+                flex: _animation.value,
+                child: Container(
+                  child: _selectedPiece != null
+                      ? DesktopPieceView(pieceId: _selectedPiece!.id)
+                      : Container(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+}
 
-  Widget getFloatingButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: FloatingActionButton.extended(
-        label: const Text(
-          "New Piece",
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        onPressed: () => {
-          showDialog(
-            context: context,
-            builder: (context) => DesktopPieceEdit(
-              oldPiece: null,
-              tags: Provider.of<GlobalState>(context, listen: false).tags,
+class _FloatingButton extends StatelessWidget {
+  const _FloatingButton({
+    required this.selectedPiece,
+  });
+
+  final Piece? selectedPiece;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<GlobalState>(
+      builder: (context, state, child) {
+        final oldPiece =
+            state.pieces.where((e) => e.id == selectedPiece?.id).firstOrNull;
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: FloatingActionButton.extended(
+            label: Text(
+              selectedPiece == null ? "New Piece" : "Edit Piece",
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
-          )
-        },
-        tooltip: "New Piece",
-        icon: const Icon(Icons.add),
-      ),
+            onPressed: () => {
+              showDialog(
+                context: context,
+                builder: (context) => DesktopPieceEdit(
+                  oldPiece: oldPiece,
+                  tags: state.tags,
+                ),
+              )
+            },
+            tooltip: "New Piece",
+            icon: Icon(selectedPiece == null ? Icons.add : Icons.edit_outlined),
+          ),
+        );
+      },
     );
   }
 }
