@@ -57,20 +57,8 @@ class DesktopPieceView extends StatelessWidget {
                     const SizedBox(height: 24),
                   ],
                   if (piece.tags.isNotEmpty) ...getTags(piece),
-                  const Text(
-                    "Date Added:",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    getFormattedDate(piece.addedAt),
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
+                  const SizedBox(height: 24),
+                  getInfoLine(piece),
                   const SizedBox(height: 64),
                   Center(child: PieceAttachmentButtons(piece: piece)),
                   const SizedBox(height: 64),
@@ -81,6 +69,71 @@ class DesktopPieceView extends StatelessWidget {
         ),
       );
     });
+  }
+
+  Widget getInfoLine(Piece piece) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Instrument:",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "${getInstrumentEmoji(piece.instrument)} ${piece.instrument ?? "Any"}",
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "State:",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              getStateString(piece.state),
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Date Added:",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              getFormattedDate(piece.addedAt),
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ],
+        )
+      ],
+    );
   }
 
   List<Widget> getTags(Piece piece) {

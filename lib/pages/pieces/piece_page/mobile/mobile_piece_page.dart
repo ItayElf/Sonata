@@ -69,6 +69,7 @@ class MobilePiecePage extends StatelessWidget {
                     ],
                     if (piece.tags.isNotEmpty) ...getTags(piece),
                     getInstrumentStateLine(piece),
+                    const SizedBox(height: 24),
                     const Text(
                       "Date Added:",
                       style: TextStyle(
