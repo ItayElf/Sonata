@@ -4,7 +4,11 @@ import 'package:sonata/design/piece_strings.dart';
 import 'package:sonata/models/piece.dart';
 
 class DesktopPieceRow extends DataRow {
-  DesktopPieceRow(Piece piece) : super(cells: _getCells(piece));
+  DesktopPieceRow(Piece piece, {void Function(bool?)? onTap})
+      : super(
+          cells: _getCells(piece),
+          onSelectChanged: onTap,
+        );
 
   static List<DataCell> _getCells(Piece piece) => [
         DataCell(

@@ -5,6 +5,8 @@ import 'package:sonata/communication/auth.dart';
 import 'package:sonata/state/global_state.dart';
 
 Future initializeGlobalState(BuildContext context) async {
+  final state = Provider.of<GlobalState>(context, listen: false);
+  if (state.initialized) return;
   final preferences = await SharedPreferences.getInstance();
   final accessToken = preferences.getString("access_token");
   if (accessToken == null) {

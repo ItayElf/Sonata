@@ -11,6 +11,9 @@ class GlobalState extends ChangeNotifier {
   late String _token;
   late List<Piece> _pieces;
   late List<Tag> _tags;
+  bool _initialized = false;
+
+  bool get initialized => _initialized;
 
   User get user => _user;
   String get token => _token;
@@ -27,6 +30,7 @@ class GlobalState extends ChangeNotifier {
       profilePictureId: fullUser.profilePictureId,
     );
     _token = token;
+    _initialized = true;
     notifyListeners();
   }
 

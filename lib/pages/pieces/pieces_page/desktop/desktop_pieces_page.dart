@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/desktop_navigation_drawer.dart';
-import 'package:sonata/components/pieces/desktop/desktop_piece_filter_modal.dart';
-import 'package:sonata/components/pieces/desktop/desktop_piece_row.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/pages/pieces/piece_edit/desktop_piece_edit.dart';
 import 'package:sonata/pages/pieces/pieces_page/desktop/desktop_pieces_table.dart';
 import 'package:sonata/state/global_state.dart';
-import 'package:sonata/state/state_guard.dart';
 
-class DesktopPiecesPage extends StatelessWidget {
+class DesktopPiecesPage extends StatefulWidget {
   const DesktopPiecesPage({
     super.key,
     required this.searchNotifier,
@@ -25,38 +20,55 @@ class DesktopPiecesPage extends StatelessWidget {
   final List<Piece> Function(Iterable<Piece> pieces) getFilteredPieces;
 
   @override
+  State<DesktopPiecesPage> createState() => _DesktopPiecesPageState();
+}
+
+class _DesktopPiecesPageState extends State<DesktopPiecesPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300), vsync: this);
+  late final Animation _animation = IntTween(begin: 0, end: 50)
+      .animate(_animationController)
+    ..addListener(() => setState(() {}));
+
+  @override
   Widget build(BuildContext context) {
-    return StateGuard(
-      child: SafeArea(
-        child: Scaffold(
-          floatingActionButton: getFloatingButton(context),
-          body: Row(
-            children: [
-              const IntrinsicWidth(
-                child: DesktopNavigationDrawer(
-                  selectedIndex: 0,
-                ),
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: getFloatingButton(context),
+        body: Row(
+          children: [
+            const IntrinsicWidth(
+              child: DesktopNavigationDrawer(
+                selectedIndex: 0,
               ),
-              const VerticalDivider(thickness: 0, width: 0),
-              Flexible(
-                flex: 2,
-                child: DesktopPiecesTable(
-                  searchNotifier: searchNotifier,
-                  filterNotifier: filterNotifier,
-                  getFilteredPieces: getFilteredPieces,
-                ),
+            ),
+            const VerticalDivider(thickness: 0, width: 0),
+            Flexible(
+              flex: 100,
+              child: DesktopPiecesTable(
+                searchNotifier: widget.searchNotifier,
+                filterNotifier: widget.filterNotifier,
+                getFilteredPieces: widget.getFilteredPieces,
+                onPieceClicked: (piece) {
+                  if (_animationController.value == 0) {
+                    _animationController.forward();
+                  } else {
+                    _animationController.reverse();
+                  }
+                },
               ),
-              Flexible(
-                flex: 1,
-                child: Container(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primaryContainer
-                      .withAlpha(50),
-                ),
+            ),
+            Flexible(
+              flex: _animation.value,
+              child: Container(
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withAlpha(50),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:sonata/components/pieces/desktop/desktop_piece_row.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/models/piece_filter.dart';
 import 'package:sonata/state/global_state.dart';
+import 'package:sonata/state/state_guard.dart';
 
 class DesktopPiecesTable extends StatelessWidget {
   const DesktopPiecesTable({
@@ -13,11 +14,13 @@ class DesktopPiecesTable extends StatelessWidget {
     required this.searchNotifier,
     required this.filterNotifier,
     required this.getFilteredPieces,
+    required this.onPieceClicked,
   });
 
   final ValueNotifier<String> searchNotifier;
   final ValueNotifier<PieceFilter> filterNotifier;
   final List<Piece> Function(Iterable<Piece> pieces) getFilteredPieces;
+  final void Function(Piece piece) onPieceClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -71,21 +74,23 @@ class DesktopPiecesTable extends StatelessWidget {
     );
   }
 
-  Consumer<GlobalState> getTableWrapper() {
-    return Consumer<GlobalState>(
-      builder: (context, state, child) {
-        return ValueListenableBuilder(
-            valueListenable: searchNotifier,
-            builder: (context, _, child) {
-              return ValueListenableBuilder(
-                valueListenable: filterNotifier,
-                builder: (context, _, child) {
-                  final pieces = getFilteredPieces(state.pieces);
-                  return getPiecesTable(pieces);
-                },
-              );
-            });
-      },
+  Widget getTableWrapper() {
+    return StateGuard(
+      child: Consumer<GlobalState>(
+        builder: (context, state, child) {
+          return ValueListenableBuilder(
+              valueListenable: searchNotifier,
+              builder: (context, _, child) {
+                return ValueListenableBuilder(
+                  valueListenable: filterNotifier,
+                  builder: (context, _, child) {
+                    final pieces = getFilteredPieces(state.pieces);
+                    return getPiecesTable(pieces);
+                  },
+                );
+              });
+        },
+      ),
     );
   }
 
@@ -94,13 +99,19 @@ class DesktopPiecesTable extends StatelessWidget {
       children: [
         Expanded(
           child: DataTable(
+            showCheckboxColumn: false,
+            rows: pieces
+                .map((e) => DesktopPieceRow(e, onTap: (s) {
+                      if (s == null || !s) return;
+                      onPieceClicked(e);
+                    }))
+                .toList(),
             columns: const [
               DataColumn(label: Text("Name")),
               DataColumn(label: Text("State")),
               DataColumn(label: Text("Date Added")),
               DataColumn(label: Text("Tags")),
             ],
-            rows: pieces.map((e) => DesktopPieceRow(e)).toList(),
           ),
         ),
       ],
