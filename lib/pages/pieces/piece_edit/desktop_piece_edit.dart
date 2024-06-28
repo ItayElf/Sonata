@@ -10,10 +10,16 @@ import 'package:sonata/models/tag.dart';
 import 'package:sonata/state/global_state.dart';
 
 class DesktopPieceEdit extends StatefulWidget {
-  const DesktopPieceEdit({super.key, this.oldPiece, required this.tags});
+  const DesktopPieceEdit({
+    super.key,
+    this.oldPiece,
+    required this.tags,
+    this.onDelete,
+  });
 
   final Piece? oldPiece;
   final List<Tag> tags;
+  final Function? onDelete;
 
   @override
   State<DesktopPieceEdit> createState() => _DesktopPieceEditState();
@@ -111,7 +117,10 @@ class _DesktopPieceEditState extends State<DesktopPieceEdit> {
       actions: [
         if (widget.oldPiece != null)
           ElevatedButton(
-            onPressed: () => onDelete(context),
+            onPressed: () {
+              onDelete(context);
+              if (widget.onDelete != null) widget.onDelete!();
+            },
             child: const Text(
               "Delete Piece",
               style: TextStyle(

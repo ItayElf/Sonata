@@ -42,6 +42,7 @@ class _DesktopPiecesPageState extends State<DesktopPiecesPage>
         child: Scaffold(
           floatingActionButton: _FloatingButton(
             selectedPiece: _selectedPiece,
+            onDelete: onClose,
           ),
           body: Row(
             children: [
@@ -69,7 +70,10 @@ class _DesktopPiecesPageState extends State<DesktopPiecesPage>
                 flex: _animation.value,
                 child: Container(
                   child: _selectedPiece != null
-                      ? DesktopPieceView(pieceId: _selectedPiece!.id)
+                      ? DesktopPieceView(
+                          pieceId: _selectedPiece!.id,
+                          onClose: onClose,
+                        )
                       : Container(),
                 ),
               ),
@@ -79,14 +83,23 @@ class _DesktopPiecesPageState extends State<DesktopPiecesPage>
       ),
     );
   }
+
+  void onClose() {
+    _animationController.reverse();
+    setState(() {
+      _selectedPiece = null;
+    });
+  }
 }
 
 class _FloatingButton extends StatelessWidget {
   const _FloatingButton({
     required this.selectedPiece,
+    this.onDelete,
   });
 
   final Piece? selectedPiece;
+  final Function? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +120,7 @@ class _FloatingButton extends StatelessWidget {
                 builder: (context) => DesktopPieceEdit(
                   oldPiece: oldPiece,
                   tags: state.tags,
+                  onDelete: onDelete,
                 ),
               )
             },

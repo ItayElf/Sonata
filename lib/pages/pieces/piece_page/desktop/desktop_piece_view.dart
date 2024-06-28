@@ -8,9 +8,14 @@ import 'package:sonata/models/piece.dart';
 import 'package:sonata/state/global_state.dart';
 
 class DesktopPieceView extends StatelessWidget {
-  const DesktopPieceView({super.key, required this.pieceId});
+  const DesktopPieceView({
+    super.key,
+    required this.pieceId,
+    required this.onClose,
+  });
 
   final String pieceId;
+  final void Function() onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +43,21 @@ class DesktopPieceView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      piece.name,
-                      style: GoogleFonts.greatVibes(fontSize: 56),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          piece.name,
+                          style: GoogleFonts.greatVibes(fontSize: 56),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: onClose,
+                        icon: const Icon(Icons.close, size: 32),
+                      )
+                    ],
                   ),
                   const Divider(),
                   const SizedBox(height: 24),
