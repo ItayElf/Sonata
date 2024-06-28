@@ -1,4 +1,4 @@
-package com.example.sonata
+package com.itaybenhaim.sonata
 
 import io.flutter.embedding.android.FlutterActivity
 
