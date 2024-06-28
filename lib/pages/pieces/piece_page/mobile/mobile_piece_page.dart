@@ -69,6 +69,20 @@ class MobilePiecePage extends StatelessWidget {
                     ],
                     if (piece.tags.isNotEmpty) ...getTags(piece),
                     getInstrumentStateLine(piece),
+                    const Text(
+                      "Date Added:",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      getFormattedDate(piece.addedAt),
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                     const SizedBox(height: 64),
                     Center(child: PieceAttachmentButtons(piece: piece)),
                     const SizedBox(height: 64),

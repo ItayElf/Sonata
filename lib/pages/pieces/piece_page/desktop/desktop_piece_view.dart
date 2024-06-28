@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sonata/components/pieces/mobile/mobile_piece_tag.dart';
 import 'package:sonata/components/pieces/piece_attachment_buttons.dart';
+import 'package:sonata/design/piece_strings.dart';
 import 'package:sonata/models/piece.dart';
 import 'package:sonata/state/global_state.dart';
 
@@ -56,6 +57,20 @@ class DesktopPieceView extends StatelessWidget {
                     const SizedBox(height: 24),
                   ],
                   if (piece.tags.isNotEmpty) ...getTags(piece),
+                  const Text(
+                    "Date Added:",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    getFormattedDate(piece.addedAt),
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
                   const SizedBox(height: 64),
                   Center(child: PieceAttachmentButtons(piece: piece)),
                   const SizedBox(height: 64),
